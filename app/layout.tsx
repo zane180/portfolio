@@ -17,6 +17,11 @@ export const metadata: Metadata = {
   description:
     "Portfolio of Zane Luis, CS student at University of Michigan building AI-powered systems. Targeting AI Engineering internships for Summer 2027.",
   keywords: ["AI Engineering", "Machine Learning", "Next.js", "FastAPI", "University of Michigan"],
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
