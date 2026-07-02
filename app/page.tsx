@@ -3,6 +3,7 @@ import { XRayToggle } from "@/components/XRay";
 import CustomCursor from "@/components/CustomCursor";
 import Navbar from "@/components/Navbar";
 import ChapterRail from "@/components/ChapterRail";
+import GitHubHeartbeat from "@/components/GitHubHeartbeat";
 import MarqueeStrip from "@/components/MarqueeStrip";
 import NeuralHero from "@/components/NeuralHero";
 import EducationJourney from "@/components/EducationJourney";
@@ -23,6 +24,7 @@ export default function Home() {
       <XRayToggle />
       <main>
         <NeuralHero />
+        <GitHubHeartbeat />
         <MarqueeStrip />
         <EducationJourney />
         <ProjectShowcase />
