@@ -56,7 +56,7 @@ export default function BeyondCode() {
               style={
                 active === tab.id
                   ? {
-                      background: "linear-gradient(135deg, #8b5cf6, #22d3ee, #10b981)",
+                      background: "linear-gradient(135deg, var(--a1), var(--a2), var(--a3))",
                       color: "white",
                     }
                   : {

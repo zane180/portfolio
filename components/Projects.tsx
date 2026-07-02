@@ -117,7 +117,7 @@ export default function Projects() {
                       rel="noopener noreferrer"
                       className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold text-white transition-transform hover:scale-105"
                       style={{
-                        background: "linear-gradient(135deg, #8b5cf6, #22d3ee, #10b981)",
+                        background: "linear-gradient(135deg, var(--a1), var(--a2), var(--a3))",
                       }}
                     >
                       <ExternalLink size={14} />
@@ -142,7 +142,7 @@ export default function Projects() {
                     <span
                       className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0"
                       style={{
-                        background: "linear-gradient(135deg, #8b5cf6, #22d3ee)",
+                        background: "linear-gradient(135deg, var(--a1), var(--a2))",
                       }}
                     />
                     <p className="text-slate-400 text-sm leading-relaxed">{h}</p>

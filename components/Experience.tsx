@@ -98,7 +98,7 @@ export default function Experience() {
                 style={{
                   background:
                     item.type === "work"
-                      ? "linear-gradient(135deg, #8b5cf6, #22d3ee)"
+                      ? "linear-gradient(135deg, var(--a1), var(--a2))"
                       : "linear-gradient(135deg, #10b981, #22d3ee)",
                 }}
               />
@@ -122,7 +122,7 @@ export default function Experience() {
                       <span
                         className="mt-2 w-1.5 h-1.5 rounded-full shrink-0"
                         style={{
-                          background: "linear-gradient(135deg, #8b5cf6, #22d3ee)",
+                          background: "linear-gradient(135deg, var(--a1), var(--a2))",
                         }}
                       />
                       {b}

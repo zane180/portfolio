@@ -1,8 +1,28 @@
 @import "tailwindcss";
 
+@property --a1 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #8b5cf6;
+}
+@property --a2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #22d3ee;
+}
+@property --a3 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f472b6;
+}
+
 :root {
   --background: #04040a;
   --foreground: #f1f5f9;
+  --a1: #8b5cf6;
+  --a2: #22d3ee;
+  --a3: #f472b6;
+  transition: --a1 0.9s ease, --a2 0.9s ease, --a3 0.9s ease;
 }
 
 @theme inline {
@@ -35,12 +55,12 @@ a, button {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #04040a; }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #8b5cf6, #10b981);
+  background: linear-gradient(to bottom, var(--a1), var(--a3));
   border-radius: 2px;
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 50%, #10b981 100%);
+  background: linear-gradient(135deg, var(--a1) 0%, var(--a2) 50%, var(--a3) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -56,7 +76,12 @@ a, button {
   inset: 0;
   border-radius: 16px;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(139,92,246,0.5), rgba(34,211,238,0.3), rgba(16,185,129,0.5));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--a1) 50%, transparent),
+    color-mix(in srgb, var(--a2) 30%, transparent),
+    color-mix(in srgb, var(--a3) 50%, transparent)
+  );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -68,7 +93,16 @@ a, button {
   font-size: 11px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(139, 92, 246, 0.5);
+  color: color-mix(in srgb, var(--a1) 60%, transparent);
+}
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 28s linear infinite;
 }
 
 .glass {
@@ -113,7 +147,7 @@ a, button {
 .cursor-dot {
   width: 8px;
   height: 8px;
-  background: linear-gradient(135deg, #8b5cf6, #22d3ee);
+  background: linear-gradient(135deg, var(--a1), var(--a2));
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
@@ -125,7 +159,7 @@ a, button {
 .cursor-ring {
   width: 32px;
   height: 32px;
-  border: 1px solid rgba(139, 92, 246, 0.4);
+  border: 1px solid color-mix(in srgb, var(--a1) 45%, transparent);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;

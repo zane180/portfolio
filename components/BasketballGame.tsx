@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState, useCallback } from "react";
+import { sfx } from "./sfx";
 
 interface Ball {
   x: number;
@@ -97,7 +98,7 @@ export default function BasketballGame() {
       ctx.fillStyle = "rgba(251,191,36,0.7)";
       ctx.font = "bold 11px monospace";
       ctx.textAlign = "center";
-      ctx.fillText("★ GMA VARSITY FINALS — CAPTAIN'S GAME ★", w / 2, 113);
+      ctx.fillText("★ VARSITY FINALS — CAPTAIN'S GAME ★", w / 2, 113);
       ctx.textAlign = "left";
 
       // Court floor (wood)
@@ -249,6 +250,98 @@ export default function BasketballGame() {
       if (pose > 0) shootPoseRef.current = Math.max(0, pose - 0.02);
     };
 
+    // Opposing team — red jerseys, they jump to block your shot
+    const DEFENDERS = [
+      { xr: 0.42, num: "23", jumpSpeed: 1.1, phase: 0.4, skin: "#c68863", hair: "#111827" },
+      { xr: 0.58, num: "11", jumpSpeed: 1.6, phase: 2.1, skin: "#8d5a3a", hair: "#000000" },
+    ];
+
+    const defenderPos = (d: (typeof DEFENDERS)[0], time: number) => {
+      const jump = Math.max(0, Math.sin(time * 0.001 * d.jumpSpeed + d.phase)) * 44;
+      return { dx: w * d.xr, dy: floorY - jump };
+    };
+
+    const drawDefender = (d: (typeof DEFENDERS)[0], time: number) => {
+      const { dx, dy } = defenderPos(d, time);
+      const armWave = Math.sin(time * 0.006 + d.phase) * 8;
+
+      // Shadow (stays on floor even mid-jump)
+      ctx.fillStyle = "rgba(0,0,0,0.4)";
+      ctx.beginPath();
+      ctx.ellipse(dx, floorY + 6, 22, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Legs
+      ctx.strokeStyle = "#7f1d1d";
+      ctx.lineWidth = 8;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(dx - 5, dy - 24);
+      ctx.lineTo(dx - 8, dy);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(dx + 5, dy - 24);
+      ctx.lineTo(dx + 8, dy);
+      ctx.stroke();
+
+      // Jersey
+      ctx.fillStyle = "#dc2626";
+      ctx.beginPath();
+      ctx.roundRect(dx - 13, dy - 60, 26, 38, 6);
+      ctx.fill();
+      ctx.fillStyle = "white";
+      ctx.font = "black 11px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(d.num, dx, dy - 38);
+
+      // Arms up, waving to block
+      ctx.strokeStyle = d.skin;
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(dx - 9, dy - 54);
+      ctx.lineTo(dx - 16 + armWave * 0.3, dy - 84);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(dx + 9, dy - 54);
+      ctx.lineTo(dx + 16 + armWave * 0.3, dy - 86);
+      ctx.stroke();
+
+      // Head
+      ctx.fillStyle = d.skin;
+      ctx.beginPath();
+      ctx.arc(dx, dy - 72, 11, 0, Math.PI * 2);
+      ctx.fill();
+      // Hair
+      ctx.fillStyle = d.hair;
+      ctx.beginPath();
+      ctx.arc(dx, dy - 75, 11, Math.PI * 0.95, Math.PI * 2.05);
+      ctx.fill();
+      // Determined eyes (facing left, toward Zane)
+      ctx.fillStyle = "#111827";
+      ctx.beginPath();
+      ctx.arc(dx - 5, dy - 72, 1.6, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.textAlign = "left";
+    };
+
+    const collideDefenders = (ball: Ball, time: number): boolean => {
+      for (const d of DEFENDERS) {
+        const { dx, dy } = defenderPos(d, time);
+        // Blocking zone: raised hands area
+        const bx = dx;
+        const by = dy - 78;
+        const dist = Math.sqrt((ball.x - bx) ** 2 + (ball.y - by) ** 2);
+        if (dist < 26 + BALL_R && ball.vx > 0) {
+          ball.vx *= -0.45;
+          ball.vy = -Math.abs(ball.vy) * 0.25 - 120;
+          sfx.thud();
+          return true;
+        }
+      }
+      return false;
+    };
+
     const drawBall = (x: number, y: number) => {
       const grad = ctx.createRadialGradient(x - 4, y - 4, 2, x, y, BALL_R);
       grad.addColorStop(0, "#fb923c");
@@ -289,6 +382,7 @@ export default function BasketballGame() {
             ball.vy *= 0.75;
             ball.x = rimX + nx * minD;
             ball.y = hy + ny * minD;
+            sfx.clank();
           }
         }
       });
@@ -320,6 +414,7 @@ export default function BasketballGame() {
       drawScene(time);
       drawHoop();
       drawZane(time);
+      DEFENDERS.forEach((d) => drawDefender(d, time));
 
       const aim = aimRef.current;
       if (aim.aiming) {
@@ -366,6 +461,7 @@ export default function BasketballGame() {
         ball.y += ball.vy * dt;
 
         collideRim(ball);
+        if (!ball.scored) collideDefenders(ball, time);
 
         // Score check: crossed rim plane downward, inside rim, below-net exit
         if (
@@ -381,11 +477,14 @@ export default function BasketballGame() {
           setScore(scoreRef.current);
           setAttempts(attemptsRef.current);
           setFlash("score");
+          sfx.swish();
+          sfx.cheer();
           setTimeout(() => setFlash(null), 700);
           if (scoreRef.current >= TARGET_SCORE && !wonRef.current) {
             wonRef.current = true;
             setWon(true);
             spawnConfetti(w, h);
+            setTimeout(() => sfx.cheer(), 300);
           }
         }
 
@@ -395,6 +494,7 @@ export default function BasketballGame() {
           ball.vy *= -0.55;
           ball.vx *= 0.8;
           ball.bounces += 1;
+          sfx.bounce();
         }
 
         // Ball dead
@@ -479,8 +579,8 @@ export default function BasketballGame() {
         <p className="chapter-label mb-2">The Captain&apos;s Game</p>
         <h3 className="text-3xl font-black text-white">Score {TARGET_SCORE} to Win the Final</h3>
         <p className="text-slate-500 text-sm mt-1 max-w-md">
-          GMA Varsity Finals, Dubai. As captain, the last shots are yours. Drag from Zane,
-          release to shoot.
+          Varsity Finals. As captain, the last shots are yours — but the defense has hands.
+          Drag anywhere to aim, release to shoot over the block.
         </p>
       </div>
 
@@ -523,7 +623,7 @@ export default function BasketballGame() {
             <button
               onClick={reset}
               className="mt-2 px-6 py-2.5 rounded-full font-bold text-white text-sm transition-transform hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #8b5cf6, #22d3ee)" }}
+              style={{ background: "linear-gradient(135deg, var(--a1), var(--a2))" }}
             >
               Run It Back
             </button>

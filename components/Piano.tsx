@@ -100,7 +100,10 @@ export default function Piano() {
   const [complete, setComplete] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const playingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const activeOsc = useRef<Map<string, [OscillatorNode, GainNode]>>(new Map());
+  const activeOsc = useRef<
+    Map<string, { oscs: OscillatorNode[]; gains: GainNode[]; autoStop: ReturnType<typeof setTimeout> }>
+  >(new Map());
+  const stopNoteRef = useRef<(note: string) => void>(() => {});
   const progressRef = useRef(0);
   const modeRef = useRef<"story" | "free">("story");
   modeRef.current = mode;
@@ -141,7 +144,10 @@ export default function Piano() {
     gain2.connect(ctx.destination);
     osc.start(now);
     osc2.start(now);
-    activeOsc.current.set(note, [osc, gain]);
+    // Safety: auto-release after 2s even if keyup/mouseup is missed,
+    // so notes can never stack into a wall of sound.
+    const autoStop = setTimeout(() => stopNoteRef.current(note), 2000);
+    activeOsc.current.set(note, { oscs: [osc, osc2], gains: [gain, gain2], autoStop });
     setPressed((p) => new Set(p).add(note));
 
     setIsPlaying(true);
@@ -165,15 +171,18 @@ export default function Piano() {
   }, []);
 
   const stopNote = useCallback((note: string) => {
-    const pair = activeOsc.current.get(note);
-    if (!pair) return;
-    const [osc, gain] = pair;
+    const entry = activeOsc.current.get(note);
+    if (!entry) return;
+    clearTimeout(entry.autoStop);
     const ctx = getCtx();
     const now = ctx.currentTime;
-    gain.gain.cancelScheduledValues(now);
-    gain.gain.setValueAtTime(gain.gain.value, now);
-    gain.gain.linearRampToValueAtTime(0, now + 0.3);
-    osc.stop(now + 0.35);
+    // Release ALL oscillators for this note (the detuned layer too)
+    entry.gains.forEach((g) => {
+      g.gain.cancelScheduledValues(now);
+      g.gain.setValueAtTime(g.gain.value, now);
+      g.gain.linearRampToValueAtTime(0, now + 0.25);
+    });
+    entry.oscs.forEach((o) => o.stop(now + 0.3));
     activeOsc.current.delete(note);
     setPressed((p) => {
       const next = new Set(p);
@@ -181,6 +190,7 @@ export default function Piano() {
       return next;
     });
   }, []);
+  stopNoteRef.current = stopNote;
 
   useEffect(() => {
     const keyMap = new Map<string, string>();
@@ -200,6 +210,8 @@ export default function Piano() {
     return () => {
       window.removeEventListener("keydown", onDown);
       window.removeEventListener("keyup", onUp);
+      // Kill any ringing notes when leaving the piano
+      [...activeOsc.current.keys()].forEach((n) => stopNoteRef.current(n));
     };
   }, [playNote, stopNote]);
 
@@ -235,7 +247,7 @@ export default function Piano() {
             className="px-4 py-1.5 rounded-full text-xs font-semibold transition-all"
             style={
               mode === m
-                ? { background: "linear-gradient(135deg, #8b5cf6, #22d3ee)", color: "white" }
+                ? { background: "linear-gradient(135deg, var(--a1), var(--a2))", color: "white" }
                 : { color: "#64748b", border: "1px solid rgba(255,255,255,0.08)" }
             }
           >
@@ -270,7 +282,7 @@ export default function Piano() {
                   className="h-full rounded-full transition-all duration-300"
                   style={{
                     width: `${(progress / FUR_ELISE.length) * 100}%`,
-                    background: "linear-gradient(to right, #8b5cf6, #22d3ee)",
+                    background: "linear-gradient(to right, var(--a1), var(--a2))",
                   }}
                 />
               </div>

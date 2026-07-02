@@ -54,7 +54,7 @@ export default function StoryContact() {
             <a
               href="mailto:zaneluis83@gmail.com"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white text-base transition-transform hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #8b5cf6, #22d3ee, #10b981)" }}
+              style={{ background: "linear-gradient(135deg, var(--a1), var(--a2), var(--a3))" }}
             >
               <Mail size={18} />
               zaneluis83@gmail.com

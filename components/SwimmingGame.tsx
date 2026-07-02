@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState, useCallback } from "react";
+import { sfx } from "./sfx";
 
 type Phase = "ready" | "countdown" | "racing" | "finished";
 
@@ -63,6 +64,7 @@ export default function SwimmingGame() {
       countdownRef.current -= 1;
       if (countdownRef.current <= 0) {
         setPhaseBoth("racing");
+        sfx.whistle();
       } else {
         setTimeout(tick, 800);
       }
@@ -77,6 +79,7 @@ export default function SwimmingGame() {
     const { w } = dimsRef.current;
     player.speed += w * 0.055;
     player.stroke += Math.PI;
+    sfx.splash();
     const { h } = dimsRef.current;
     const laneH = (h - 60) / LANES;
     splashesRef.current.push({
@@ -279,6 +282,11 @@ export default function SwimmingGame() {
           const place = finishedOrder.findIndex((s) => s.isPlayer) + 1;
           setPlacement(place);
           setPhaseBoth("finished");
+          if (place === 1) {
+            sfx.cheer();
+          } else {
+            sfx.buzzer();
+          }
         }
       }
 
@@ -352,7 +360,7 @@ export default function SwimmingGame() {
             <button
               onClick={startRace}
               className="px-8 py-3 rounded-full font-bold text-white transition-transform hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #8b5cf6, #22d3ee)" }}
+              style={{ background: "linear-gradient(135deg, var(--a1), var(--a2))" }}
             >
               {phase === "finished" ? "Race Again" : "Take Your Mark"}
             </button>
@@ -369,7 +377,7 @@ export default function SwimmingGame() {
             strokeAction();
           }}
           className="w-full max-w-xs py-4 rounded-2xl font-black text-white text-lg select-none active:scale-95 transition-transform"
-          style={{ background: "linear-gradient(135deg, #8b5cf6, #22d3ee)" }}
+          style={{ background: "linear-gradient(135deg, var(--a1), var(--a2))" }}
         >
           STROKE! 🏊
         </button>

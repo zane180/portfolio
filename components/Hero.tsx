@@ -107,7 +107,7 @@ export default function Hero() {
             href="#projects"
             className="px-8 py-3.5 rounded-full font-semibold text-white text-base transition-transform hover:scale-105"
             style={{
-              background: "linear-gradient(135deg, #8b5cf6, #22d3ee, #10b981)",
+              background: "linear-gradient(135deg, var(--a1), var(--a2), var(--a3))",
             }}
           >
             View Projects
