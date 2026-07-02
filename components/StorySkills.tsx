@@ -123,7 +123,7 @@ function SkillRow({
             transition={{ duration: 0.3, delay: groupIndex * 0.08 + i * 0.04 }}
             className="px-3 py-1.5 rounded-full text-sm font-medium border transition-colors hover:border-opacity-60"
             style={{
-              color: "#94a3b8",
+              color: "var(--muted)",
               borderColor: `${group.accent}25`,
               background: `${group.accent}08`,
             }}

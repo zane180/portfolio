@@ -99,7 +99,7 @@ export default function ChapterRail() {
               </span>
               <span
                 className="font-mono text-[10px] transition-colors duration-300 group-hover:text-white"
-                style={{ color: isActive ? "white" : isPast ? "#64748b" : "#334155" }}
+                style={{ color: isActive ? "var(--foreground)" : isPast ? "var(--muted)" : "#64748b" }}
               >
                 {c.n}
               </span>

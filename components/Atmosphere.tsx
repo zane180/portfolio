@@ -13,7 +13,7 @@ export default function Atmosphere() {
           height: "55vw",
           top: "-12%",
           left: "-8%",
-          background: "color-mix(in srgb, var(--a1) 7%, transparent)",
+          background: "color-mix(in srgb, var(--a1) var(--aurA), transparent)",
           animation: "drift-a 26s ease-in-out infinite",
         }}
       />
@@ -24,7 +24,7 @@ export default function Atmosphere() {
           height: "48vw",
           bottom: "-15%",
           right: "-10%",
-          background: "color-mix(in srgb, var(--a2) 6%, transparent)",
+          background: "color-mix(in srgb, var(--a2) var(--aurB), transparent)",
           animation: "drift-b 32s ease-in-out infinite",
         }}
       />
@@ -35,7 +35,7 @@ export default function Atmosphere() {
           height: "36vw",
           top: "40%",
           left: "55%",
-          background: "color-mix(in srgb, var(--a3) 5%, transparent)",
+          background: "color-mix(in srgb, var(--a3) var(--aurC), transparent)",
           animation: "drift-a 38s ease-in-out infinite reverse",
         }}
       />

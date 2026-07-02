@@ -45,11 +45,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#06060a] text-slate-100">
-        {children}
-      </body>
+      <head>
+        {/* Applied before paint — light is the default, dark persists per visitor */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if((localStorage.getItem('zane-theme')||'light')==='light')document.documentElement.classList.add('light')}catch(e){}`,
+          }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

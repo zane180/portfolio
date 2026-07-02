@@ -17,9 +17,11 @@ export function XRayToggle() {
       onClick={() => setOn(!on)}
       className="fixed bottom-4 right-4 z-[60] flex items-center gap-2 px-3.5 py-2 rounded-full border backdrop-blur-md text-xs font-mono transition-all hover:scale-105"
       style={{
-        borderColor: on ? "var(--a1)" : "rgba(255,255,255,0.1)",
-        background: on ? "color-mix(in srgb, var(--a1) 20%, black)" : "rgba(0,0,0,0.6)",
-        color: on ? "white" : "#94a3b8",
+        borderColor: on ? "var(--a1)" : "var(--line)",
+        background: on
+          ? "color-mix(in srgb, var(--a1) 25%, var(--background))"
+          : "color-mix(in srgb, var(--background) 70%, transparent)",
+        color: on ? "var(--foreground)" : "var(--muted)",
       }}
       aria-pressed={on}
     >

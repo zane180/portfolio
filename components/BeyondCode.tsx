@@ -65,8 +65,8 @@ export default function BeyondCode() {
                       color: "white",
                     }
                   : {
-                      color: "#64748b",
-                      border: "1px solid rgba(255,255,255,0.08)",
+                      color: "var(--muted)",
+                      border: "1px solid var(--line)",
                     }
               }
             >

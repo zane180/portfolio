@@ -251,7 +251,7 @@ export default function Piano() {
             style={
               mode === m
                 ? { background: "linear-gradient(135deg, var(--a1), var(--a2))", color: "white" }
-                : { color: "#64748b", border: "1px solid rgba(255,255,255,0.08)" }
+                : { color: "var(--muted)", border: "1px solid var(--line)" }
             }
           >
             {m === "story" ? "🎼 Für Elise" : "🎹 Free Play"}

@@ -22,8 +22,40 @@
   --a1: #8b5cf6;
   --a2: #22d3ee;
   --a3: #f472b6;
+  --line: rgba(255, 255, 255, 0.1);
+  --muted: #94a3b8;
+  --aurA: 7%;
+  --aurB: 6%;
+  --aurC: 5%;
   transition: --a1 0.9s ease, --a2 0.9s ease, --a3 0.9s ease;
 }
+
+/* ——— Light theme (default): warm cream, gallery light ——— */
+html.light {
+  --background: #faf7f2;
+  --foreground: #1a1625;
+  --line: rgba(26, 22, 37, 0.16);
+  --muted: #5b5472;
+  --aurA: 17%;
+  --aurB: 14%;
+  --aurC: 11%;
+}
+
+/* Utility remaps so the whole component tree flips without a rewrite */
+html.light .text-white { color: var(--foreground); }
+html.light .text-slate-100 { color: #241f33; }
+html.light .text-slate-300 { color: #3d3752; }
+html.light .text-slate-400 { color: #4e4766; }
+html.light .text-slate-500 { color: #6a6382; }
+html.light .text-slate-600 { color: #8d87a0; }
+html.light .text-slate-700 { color: #b5b0c4; }
+html.light [class*="bg-white/"] { background-color: rgba(26, 22, 37, 0.05); }
+html.light [class*="border-white/"] { border-color: rgba(26, 22, 37, 0.13); }
+html.light [class*="bg-black/"] { background-color: rgba(255, 255, 255, 0.82); }
+html.light [class*="bg-slate-7"] { background-color: #c9c4d6; }
+html.light .glass { background: rgba(255, 255, 255, 0.55); }
+/* Gradient-filled buttons keep white text in both themes */
+html.light [style*="linear-gradient(135deg, var(--a1)"] { color: #fff; }
 
 @theme inline {
   --color-background: var(--background);
@@ -53,7 +85,7 @@ a, button {
 }
 
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #04040a; }
+::-webkit-scrollbar-track { background: var(--background); }
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(to bottom, var(--a1), var(--a3));
   border-radius: 2px;

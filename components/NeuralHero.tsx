@@ -23,7 +23,7 @@ export default function NeuralHero() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 80% 80% at 50% 50%, transparent 25%, #04040a 100%)",
+            "radial-gradient(ellipse 80% 80% at 50% 50%, transparent 25%, var(--background) 100%)",
         }}
       />
 

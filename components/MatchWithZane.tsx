@@ -308,7 +308,7 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
       style={
         active
           ? { background: "linear-gradient(135deg, var(--a1), var(--a2))", color: "white", transform: "scale(1.05)" }
-          : { color: "#94a3b8", border: "1px solid rgba(255,255,255,0.1)" }
+          : { color: "var(--muted)", border: "1px solid var(--line)" }
       }
     >
       {label}
@@ -342,7 +342,7 @@ function OptionList({ options, selected, onSelect, small }: {
           style={
             selected === i
               ? { background: "linear-gradient(135deg, var(--a1), var(--a2))", color: "white" }
-              : { color: "#94a3b8", border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }
+              : { color: "var(--muted)", border: "1px solid var(--line)", background: "rgba(255,255,255,0.02)" }
           }
         >
           {opt}
