@@ -16,7 +16,7 @@ interface Ball {
 const GRAVITY = 1400;
 const SHOOTER_X = 0.16;
 const SHOOTER_Y = 0.74;
-const HOOP_X = 0.8;
+const HOOP_X = 0.66;
 const HOOP_Y = 0.38;
 const HOOP_R = 27;
 const BALL_R = 13;
@@ -252,8 +252,8 @@ export default function BasketballGame() {
 
     // Opposing team — red jerseys, they jump to block your shot
     const DEFENDERS = [
-      { xr: 0.4, num: "23", jumpSpeed: 0.9, phase: 0.4, skin: "#c68863", hair: "#111827" },
-      { xr: 0.56, num: "11", jumpSpeed: 1.3, phase: 2.6, skin: "#8d5a3a", hair: "#000000" },
+      { xr: 0.33, num: "23", jumpSpeed: 0.9, phase: 0.4, skin: "#c68863", hair: "#111827" },
+      { xr: 0.47, num: "11", jumpSpeed: 1.3, phase: 2.6, skin: "#8d5a3a", hair: "#000000" },
     ];
 
     const defenderPos = (d: (typeof DEFENDERS)[0], time: number) => {
@@ -330,11 +330,11 @@ export default function BasketballGame() {
         const { dx, dy, jump } = defenderPos(d, time);
         // Only a real block when they're actually mid-jump — grounded
         // defenders can't touch a decent arc. Leaves clear shooting windows.
-        if (jump < 22) continue;
+        if (jump < 30) continue;
         const bx = dx;
         const by = dy - 84;
         const dist = Math.sqrt((ball.x - bx) ** 2 + (ball.y - by) ** 2);
-        if (dist < 20 && ball.vx > 0) {
+        if (dist < 16 && ball.vx > 0) {
           ball.vx *= -0.45;
           ball.vy = -Math.abs(ball.vy) * 0.25 - 120;
           sfx.thud();
@@ -374,7 +374,7 @@ export default function BasketballGame() {
         const d = Math.sqrt(dx * dx + dy * dy);
         // Arcade-forgiving: small collision radius so the rim doesn't
         // swallow the scoring window (physically-accurate = unplayable)
-        const minD = 5;
+        const minD = 4;
         if (d < minD && d > 0) {
           const nx = dx / d;
           const ny = dy / d;
@@ -443,7 +443,7 @@ export default function BasketballGame() {
             prevTy < hy &&
             ty >= hy &&
             tvy > 0 &&
-            Math.abs(tx - hx) < HOOP_R + 8
+            Math.abs(tx - hx) < HOOP_R + 10
           ) {
             willScore = true;
             pts.push([tx, ty]);
@@ -497,7 +497,7 @@ export default function BasketballGame() {
           prevY < hy &&
           ball.y >= hy &&
           ball.vy > 0 &&
-          Math.abs(ball.x - hx) < HOOP_R + 8;
+          Math.abs(ball.x - hx) < HOOP_R + 10;
 
         if (!scoredNow) {
           collideRim(ball);
@@ -540,6 +540,13 @@ export default function BasketballGame() {
         }
       } else if (!ball) {
         drawBall(sx + 14, sy - 56);
+        if (!aim.aiming && !wonRef.current) {
+          ctx.fillStyle = "rgba(255,255,255,0.35)";
+          ctx.font = "bold 11px monospace";
+          ctx.textAlign = "center";
+          ctx.fillText("CLICK + DRAG BACK ← RELEASE WHEN GREEN", w / 2, h - 18);
+          ctx.textAlign = "left";
+        }
       }
 
       // Confetti
