@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { XRayNote } from "./XRay";
 
 const Hero3D = dynamic(() => import("./Hero3D"), { ssr: false });
 
@@ -87,6 +88,20 @@ export default function NeuralHero() {
           <div className="w-8 h-px bg-slate-700" />
           <span className="font-mono text-[10px] tracking-[0.35em]">SCROLL</span>
           <div className="w-8 h-px bg-slate-700" />
+        </div>
+
+        <div className="max-w-md mx-auto pointer-events-auto">
+          <XRayNote
+            file="components/Hero3D.tsx"
+            title="1,800 particles, one draw call"
+            code={`const phi = Math.acos(1 - 2*(i+0.5)/n);
+const theta = Math.PI*(1+Math.sqrt(5))*i;`}
+          >
+            Fibonacci-sphere distribution instead of random placement — uniform density with
+            zero clustering. Rendered as a single THREE.Points buffer (one draw call), hue
+            cycled in the render loop instead of re-uploading vertex colors. Deferred via
+            dynamic import so Three.js never blocks first paint.
+          </XRayNote>
         </div>
       </div>
     </section>

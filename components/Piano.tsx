@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { unlock } from "./achievements";
+import { XRayNote } from "./XRay";
 
 const NOTES: Record<string, number> = {
   C4: 261.63, "C#4": 277.18, D4: 293.66, "D#4": 311.13, E4: 329.63,
@@ -337,6 +338,21 @@ export default function Piano() {
       <p className="text-slate-700 text-xs font-mono text-center">
         keyboard: A S D F G H J K L ; — black keys: W E T Y U O P
       </p>
+
+      <div className="w-full max-w-lg">
+        <XRayNote
+          file="components/Piano.tsx"
+          title="The oscillator leak that became a wall of sound"
+          code={`// bug: 2 oscillators per note, only 1 stopped
+// the detuned layer rang forever and stacked
+entry.oscs.forEach((o) => o.stop(now + 0.3));`}
+        >
+          Each key layers a triangle wave with a 7-cent-detuned sine for warmth. V1 only
+          stopped the first oscillator on key release — every press left a sine ringing
+          forever, stacking into noise. Fix: release all oscillators per note, a 2s
+          auto-release for missed keyups, and full teardown on unmount.
+        </XRayNote>
+      </div>
     </div>
   );
 }

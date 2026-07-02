@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { unlock } from "./achievements";
+import { XRayNote } from "./XRay";
 
 // ——— Zane's actual profile (the algorithm's "user B") ———
 const ZANE_INTERESTS = ["AI/ML", "Startups", "Basketball", "Music", "Fitness", "Travel", "Space", "Gaming"];
@@ -145,6 +146,20 @@ export default function MatchWithZane() {
           <p className="font-mono text-xs text-slate-600 mt-3">
             score = 0.4·J(A,B) + 0.2·P + 0.3·F + 0.1·M
           </p>
+
+          <XRayNote
+            file="components/MatchWithZane.tsx"
+            title="Same math as production Lovemaxxing"
+            code={`function jaccard(a, b) {
+  const inter = [...A].filter(x => B.has(x)).length;
+  return inter / new Set([...a, ...b]).size;
+}`}
+          >
+            This isn&apos;t a mock — the weights (40/20/30/10) and Jaccard set-similarity are the
+            same signal design as the deployed dating platform, which ranks candidates O(n) per
+            request. The only difference: there, signal 3 compares AI-detected facial features
+            against stated preferences via a 40-label controlled vocabulary.
+          </XRayNote>
         </motion.div>
 
         <div className="gradient-border glass rounded-2xl p-8 min-h-[420px]">

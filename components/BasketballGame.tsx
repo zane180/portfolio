@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { sfx } from "./sfx";
 import { unlock } from "./achievements";
+import { XRayNote } from "./XRay";
 
 interface Ball {
   x: number;
@@ -698,6 +699,22 @@ export default function BasketballGame() {
       <button onClick={reset} className="text-xs font-mono text-slate-600 hover:text-slate-400 transition-colors">
         [ reset ]
       </button>
+
+      <div className="w-full max-w-lg">
+        <XRayNote
+          file="components/BasketballGame.tsx"
+          title="Physically accurate was unplayable"
+          code={`// rim endpoint collision: 17px → 4px
+// simulated 170 power/angle combos in Node
+// before: 14px scoring window. after: 74px`}
+        >
+          The first version used realistic rim collision (ball radius + rim radius = 17px).
+          Simulation showed that left a 14px scoring window — geometrically near-impossible.
+          Ran the exact game loop headless in Node across 170 shot configs, tuned until every
+          angle 40–65° had a wide make band, and added a live arc simulation that turns the
+          preview green when the current aim will score.
+        </XRayNote>
+      </div>
     </div>
   );
 }

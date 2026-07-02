@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { XRayNote } from "./XRay";
 
 const groups = [
   {
@@ -62,6 +63,19 @@ export default function StorySkills() {
             <SkillRow key={g.label} group={g} groupIndex={gi} />
           ))}
         </div>
+
+        <XRayNote
+          file="components/ChapterRail.tsx + globals.css"
+          title="The whole site's colors are 3 CSS variables"
+          code={`@property --a1 { syntax: "<color>"; }
+:root { transition: --a1 0.9s ease, ... }
+// IntersectionObserver sets vars per chapter`}
+        >
+          Every gradient, cursor, scrollbar, and border reads --a1/--a2/--a3. Registered via
+          CSS @property so colors interpolate natively — an IntersectionObserver swaps the
+          palette per chapter and the browser tweens everything. Zero re-renders, zero JS
+          animation loops for theming.
+        </XRayNote>
       </div>
     </section>
   );
