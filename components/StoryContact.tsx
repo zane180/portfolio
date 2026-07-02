@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Mail, FileText, ArrowUpRight } from "lucide-react";
+import PredictionMarket from "./PredictionMarket";
 
 function GithubIcon() {
   return (
@@ -34,6 +35,8 @@ export default function StoryContact() {
           transition={{ duration: 0.7 }}
         >
           <p className="chapter-label mb-5">Chapter 07 — What&apos;s Next</p>
+
+          <PredictionMarket />
 
           <h2
             className="font-black text-white leading-none mb-4"
