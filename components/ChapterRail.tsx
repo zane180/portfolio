@@ -10,7 +10,8 @@ const CHAPTERS = [
   { id: "skills", n: "03", label: "Stack", theme: { a1: "#22d3ee", a2: "#10b981", a3: "#a3e635" } },
   { id: "experience", n: "04", label: "Work", theme: { a1: "#f43f5e", a2: "#a855f7", a3: "#fb923c" } },
   { id: "life", n: "05", label: "Play", theme: { a1: "#fb923c", a2: "#f472b6", a3: "#facc15" } },
-  { id: "contact", n: "06", label: "Next", theme: { a1: "#facc15", a2: "#8b5cf6", a3: "#22d3ee" } },
+  { id: "match", n: "06", label: "Match", theme: { a1: "#f472b6", a2: "#e11d48", a3: "#a855f7" } },
+  { id: "contact", n: "07", label: "Next", theme: { a1: "#facc15", a2: "#8b5cf6", a3: "#22d3ee" } },
 ];
 
 export default function ChapterRail() {

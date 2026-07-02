@@ -30,7 +30,7 @@ export default function BeyondCode() {
           transition={{ duration: 0.7 }}
           className="mb-10"
         >
-          <p className="chapter-label mb-5">Chapter 04 — Beyond Code</p>
+          <p className="chapter-label mb-5">Chapter 05 — Beyond Code</p>
           <h2
             className="font-black text-white leading-none"
             style={{ fontSize: "clamp(42px, 8vw, 96px)" }}

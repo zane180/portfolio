@@ -33,7 +33,7 @@ export default function StoryContact() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
         >
-          <p className="chapter-label mb-5">Chapter 05 — What&apos;s Next</p>
+          <p className="chapter-label mb-5">Chapter 07 — What&apos;s Next</p>
 
           <h2
             className="font-black text-white leading-none mb-4"

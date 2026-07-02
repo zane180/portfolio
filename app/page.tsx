@@ -8,6 +8,7 @@ import ProjectShowcase from "@/components/ProjectShowcase";
 import StorySkills from "@/components/StorySkills";
 import Experience from "@/components/Experience";
 import BeyondCode from "@/components/BeyondCode";
+import MatchWithZane from "@/components/MatchWithZane";
 import StoryContact from "@/components/StoryContact";
 
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
         <StorySkills />
         <Experience />
         <BeyondCode />
+        <MatchWithZane />
         <MarqueeStrip />
         <StoryContact />
       </main>
