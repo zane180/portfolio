@@ -18,7 +18,7 @@ const SHOOTER_X = 0.16;
 const SHOOTER_Y = 0.74;
 const HOOP_X = 0.8;
 const HOOP_Y = 0.38;
-const HOOP_R = 24;
+const HOOP_R = 27;
 const BALL_R = 13;
 const TARGET_SCORE = 3;
 
@@ -252,13 +252,13 @@ export default function BasketballGame() {
 
     // Opposing team — red jerseys, they jump to block your shot
     const DEFENDERS = [
-      { xr: 0.42, num: "23", jumpSpeed: 1.1, phase: 0.4, skin: "#c68863", hair: "#111827" },
-      { xr: 0.58, num: "11", jumpSpeed: 1.6, phase: 2.1, skin: "#8d5a3a", hair: "#000000" },
+      { xr: 0.4, num: "23", jumpSpeed: 0.9, phase: 0.4, skin: "#c68863", hair: "#111827" },
+      { xr: 0.56, num: "11", jumpSpeed: 1.3, phase: 2.6, skin: "#8d5a3a", hair: "#000000" },
     ];
 
     const defenderPos = (d: (typeof DEFENDERS)[0], time: number) => {
       const jump = Math.max(0, Math.sin(time * 0.001 * d.jumpSpeed + d.phase)) * 44;
-      return { dx: w * d.xr, dy: floorY - jump };
+      return { dx: w * d.xr, dy: floorY - jump, jump };
     };
 
     const drawDefender = (d: (typeof DEFENDERS)[0], time: number) => {
@@ -327,12 +327,14 @@ export default function BasketballGame() {
 
     const collideDefenders = (ball: Ball, time: number): boolean => {
       for (const d of DEFENDERS) {
-        const { dx, dy } = defenderPos(d, time);
-        // Blocking zone: raised hands area
+        const { dx, dy, jump } = defenderPos(d, time);
+        // Only a real block when they're actually mid-jump — grounded
+        // defenders can't touch a decent arc. Leaves clear shooting windows.
+        if (jump < 22) continue;
         const bx = dx;
-        const by = dy - 78;
+        const by = dy - 84;
         const dist = Math.sqrt((ball.x - bx) ** 2 + (ball.y - by) ** 2);
-        if (dist < 26 + BALL_R && ball.vx > 0) {
+        if (dist < 20 && ball.vx > 0) {
           ball.vx *= -0.45;
           ball.vy = -Math.abs(ball.vy) * 0.25 - 120;
           sfx.thud();
@@ -370,7 +372,9 @@ export default function BasketballGame() {
         const dx = ball.x - rimX;
         const dy = ball.y - hy;
         const d = Math.sqrt(dx * dx + dy * dy);
-        const minD = BALL_R + 4;
+        // Arcade-forgiving: small collision radius so the rim doesn't
+        // swallow the scoring window (physically-accurate = unplayable)
+        const minD = 9;
         if (d < minD && d > 0) {
           const nx = dx / d;
           const ny = dy / d;
@@ -420,10 +424,10 @@ export default function BasketballGame() {
       if (aim.aiming) {
         const dx = aim.sx - aim.cx;
         const dy = aim.sy - aim.cy;
-        const power = Math.min(Math.sqrt(dx * dx + dy * dy), 260);
+        const power = Math.min(Math.sqrt(dx * dx + dy * dy), 300);
         const ang = Math.atan2(dy, dx);
-        let tvx = Math.cos(ang) * power * 4.4;
-        let tvy = Math.sin(ang) * power * 4.4;
+        let tvx = Math.cos(ang) * power * 3.8;
+        let tvy = Math.sin(ang) * power * 3.8;
         let tx = sx + 14;
         let ty = sy - 56;
         ctx.setLineDash([3, 7]);
@@ -431,7 +435,7 @@ export default function BasketballGame() {
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(tx, ty);
-        for (let i = 0; i < 55; i++) {
+        for (let i = 0; i < 90; i++) {
           tvy += GRAVITY / 60;
           tx += tvx / 60;
           ty += tvy / 60;
@@ -442,7 +446,7 @@ export default function BasketballGame() {
         ctx.setLineDash([]);
 
         // Power meter
-        const pct = power / 260;
+        const pct = power / 300;
         ctx.fillStyle = "rgba(0,0,0,0.5)";
         ctx.beginPath();
         ctx.roundRect(16, h - 34, 110, 10, 5);
@@ -469,7 +473,7 @@ export default function BasketballGame() {
           prevY < hy &&
           ball.y >= hy &&
           ball.vy > 0 &&
-          Math.abs(ball.x - hx) < HOOP_R - BALL_R * 0.35
+          Math.abs(ball.x - hx) < HOOP_R - 5
         ) {
           ball.scored = true;
           scoreRef.current += 1;
@@ -548,14 +552,14 @@ export default function BasketballGame() {
     aim.aiming = false;
     const dx = aim.sx - aim.cx;
     const dy = aim.sy - aim.cy;
-    const power = Math.min(Math.sqrt(dx * dx + dy * dy), 260);
+    const power = Math.min(Math.sqrt(dx * dx + dy * dy), 300);
     if (power < 12) return;
     const ang = Math.atan2(dy, dx);
     ballRef.current = {
       x: aim.sx,
       y: aim.sy,
-      vx: Math.cos(ang) * power * 4.4,
-      vy: Math.sin(ang) * power * 4.4,
+      vx: Math.cos(ang) * power * 3.8,
+      vy: Math.sin(ang) * power * 3.8,
       active: true,
       scored: false,
       bounces: 0,
