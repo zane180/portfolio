@@ -35,12 +35,12 @@ a, button {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #04040a; }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #a855f7, #f97316);
+  background: linear-gradient(to bottom, #8b5cf6, #10b981);
   border-radius: 2px;
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f97316 100%);
+  background: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 50%, #10b981 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -56,7 +56,7 @@ a, button {
   inset: 0;
   border-radius: 16px;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(168,85,247,0.5), rgba(236,72,153,0.3), rgba(249,115,22,0.5));
+  background: linear-gradient(135deg, rgba(139,92,246,0.5), rgba(34,211,238,0.3), rgba(16,185,129,0.5));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -68,7 +68,7 @@ a, button {
   font-size: 11px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(168, 85, 247, 0.5);
+  color: rgba(139, 92, 246, 0.5);
 }
 
 .glass {
@@ -81,28 +81,6 @@ a, button {
   50% { transform: translateY(-12px); }
 }
 
-@keyframes grain {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(-2%, -3%); }
-  30% { transform: translate(2%, -1%); }
-  50% { transform: translate(-1%, 2%); }
-  70% { transform: translate(3%, 1%); }
-  90% { transform: translate(-2%, 3%); }
-}
-
-.noise::after {
-  content: "";
-  position: fixed;
-  inset: -50%;
-  width: 200%;
-  height: 200%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.03;
-  pointer-events: none;
-  animation: grain 0.5s steps(1) infinite;
-  z-index: 9999;
-}
-
 /* Piano keys */
 .piano-key-white {
   background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
@@ -111,7 +89,15 @@ a, button {
   transition: background 0.05s;
 }
 .piano-key-white.active {
-  background: linear-gradient(to bottom, #c4b5fd, #a855f7);
+  background: linear-gradient(to bottom, #a5f3fc, #22d3ee);
+}
+.piano-key-white.hint {
+  background: linear-gradient(to bottom, #ddd6fe, #a78bfa);
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.6);
+}
+.piano-key-black.hint {
+  background: linear-gradient(to bottom, #8b5cf6, #6d28d9);
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.8);
 }
 .piano-key-black {
   background: linear-gradient(to bottom, #1a1a2e, #0d0d1a);
@@ -120,14 +106,14 @@ a, button {
   transition: background 0.05s;
 }
 .piano-key-black.active {
-  background: linear-gradient(to bottom, #7c3aed, #a855f7);
+  background: linear-gradient(to bottom, #7c3aed, #8b5cf6);
 }
 
 /* Cursor */
 .cursor-dot {
   width: 8px;
   height: 8px;
-  background: linear-gradient(135deg, #a855f7, #ec4899);
+  background: linear-gradient(135deg, #8b5cf6, #22d3ee);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
@@ -139,7 +125,7 @@ a, button {
 .cursor-ring {
   width: 32px;
   height: 32px;
-  border: 1px solid rgba(168, 85, 247, 0.4);
+  border: 1px solid rgba(139, 92, 246, 0.4);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;

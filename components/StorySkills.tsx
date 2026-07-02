@@ -6,17 +6,17 @@ import { motion, useInView } from "framer-motion";
 const groups = [
   {
     label: "AI / ML",
-    accent: "#a855f7",
+    accent: "#8b5cf6",
     skills: ["Claude Vision API", "LLMs", "Keras", "Prompt Engineering", "RAG (learning)", "PyTorch (learning)", "Model Fine-Tuning (learning)", "NumPy"],
   },
   {
     label: "Backend",
-    accent: "#ec4899",
+    accent: "#22d3ee",
     skills: ["FastAPI", "Flask", "PostgreSQL", "SQLAlchemy", "WebSockets", "JWT Auth", "REST APIs"],
   },
   {
     label: "Frontend",
-    accent: "#f97316",
+    accent: "#10b981",
     skills: ["Next.js 14", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "Streamlit"],
   },
   {

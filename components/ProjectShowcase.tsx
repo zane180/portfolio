@@ -28,7 +28,7 @@ const projects = [
     ],
     liveUrl: "https://lovemaxxing.vercel.app/",
     githubUrl: "https://github.com/zane180/lovemaxxing",
-    accent: "#a855f7",
+    accent: "#8b5cf6",
     live: true,
   },
   {
@@ -45,7 +45,7 @@ const projects = [
     ],
     liveUrl: undefined,
     githubUrl: undefined,
-    accent: "#ec4899",
+    accent: "#22d3ee",
     live: false,
   },
   {
@@ -62,7 +62,7 @@ const projects = [
     ],
     liveUrl: undefined,
     githubUrl: undefined,
-    accent: "#f97316",
+    accent: "#10b981",
     live: false,
   },
   {

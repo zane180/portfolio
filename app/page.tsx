@@ -10,7 +10,7 @@ import StoryContact from "@/components/StoryContact";
 
 export default function Home() {
   return (
-    <div className="noise">
+    <div>
       <CustomCursor />
       <Navbar />
       <main>

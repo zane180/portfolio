@@ -55,21 +55,21 @@ export default function Hero() {
       <div
         className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%)",
           animation: "float 8s ease-in-out infinite",
         }}
       />
       <div
         className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full blur-3xl pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(236,72,153,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(34,211,238,0.12) 0%, transparent 70%)",
           animation: "float 10s ease-in-out infinite reverse",
         }}
       />
       <div
         className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full blur-3xl pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%)",
           animation: "float 12s ease-in-out infinite 2s",
         }}
       />
@@ -107,7 +107,7 @@ export default function Hero() {
             href="#projects"
             className="px-8 py-3.5 rounded-full font-semibold text-white text-base transition-transform hover:scale-105"
             style={{
-              background: "linear-gradient(135deg, #a855f7, #ec4899, #f97316)",
+              background: "linear-gradient(135deg, #8b5cf6, #22d3ee, #10b981)",
             }}
           >
             View Projects

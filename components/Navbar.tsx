@@ -51,7 +51,7 @@ export default function Navbar() {
             rel="noopener noreferrer"
             className="px-4 py-2 rounded-full text-sm font-semibold text-white"
             style={{
-              background: "linear-gradient(135deg, #a855f7, #ec4899, #f97316)",
+              background: "linear-gradient(135deg, #8b5cf6, #22d3ee, #10b981)",
             }}
           >
             Resume
@@ -87,7 +87,7 @@ export default function Navbar() {
             rel="noopener noreferrer"
             className="w-fit px-4 py-2 rounded-full text-sm font-semibold text-white"
             style={{
-              background: "linear-gradient(135deg, #a855f7, #ec4899, #f97316)",
+              background: "linear-gradient(135deg, #8b5cf6, #22d3ee, #10b981)",
             }}
           >
             Resume

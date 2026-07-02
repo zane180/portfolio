@@ -15,6 +15,7 @@ export default function NeuralHero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -1000, y: -1000 });
   const nodesRef = useRef<Node[]>([]);
+  const dimsRef = useRef({ w: 0, h: 0 });
   const frameRef = useRef<number>(0);
   const [visible, setVisible] = useState(false);
 
@@ -30,11 +31,16 @@ export default function NeuralHero() {
     if (!ctx) return;
 
     const init = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      dimsRef.current = { w, h };
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       nodesRef.current = Array.from({ length: 90 }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
+        x: Math.random() * w,
+        y: Math.random() * h,
         vx: (Math.random() - 0.5) * 0.4,
         vy: (Math.random() - 0.5) * 0.4,
         r: Math.random() * 2 + 0.5,
@@ -51,7 +57,8 @@ export default function NeuralHero() {
     window.addEventListener("mousemove", onMouse);
 
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const { w, h } = dimsRef.current;
+      ctx.clearRect(0, 0, w, h);
 
       const nodes = nodesRef.current;
       const { x: mx, y: my } = mouseRef.current;
@@ -66,14 +73,14 @@ export default function NeuralHero() {
         }
         n.vx *= 0.97;
         n.vy *= 0.97;
-        n.x = Math.max(0, Math.min(canvas.width, n.x + n.vx));
-        n.y = Math.max(0, Math.min(canvas.height, n.y + n.vy));
-        if (n.x <= 0 || n.x >= canvas.width) n.vx *= -1;
-        if (n.y <= 0 || n.y >= canvas.height) n.vy *= -1;
+        n.x = Math.max(0, Math.min(w, n.x + n.vx));
+        n.y = Math.max(0, Math.min(h, n.y + n.vy));
+        if (n.x <= 0 || n.x >= w) n.vx *= -1;
+        if (n.y <= 0 || n.y >= h) n.vy *= -1;
         n.pulse += 0.018;
       });
 
-      // Connections
+      // Connections: violet (139,92,246) → emerald (16,185,129) across screen
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[i].x - nodes[j].x;
@@ -81,10 +88,10 @@ export default function NeuralHero() {
           const d = Math.sqrt(dx * dx + dy * dy);
           if (d < 130) {
             const a = (1 - d / 130) * 0.35;
-            const px = (nodes[i].x + nodes[j].x) / 2 / canvas.width;
-            const r = Math.round(168 + (249 - 168) * px);
-            const g = Math.round(85 + (115 - 85) * px);
-            const b = Math.round(247 * (1 - px) + 22 * px);
+            const px = (nodes[i].x + nodes[j].x) / 2 / w;
+            const r = Math.round(139 + (16 - 139) * px);
+            const g = Math.round(92 + (185 - 92) * px);
+            const b = Math.round(246 + (129 - 246) * px);
             ctx.beginPath();
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
@@ -98,10 +105,10 @@ export default function NeuralHero() {
       // Nodes
       nodes.forEach((n) => {
         const p = (Math.sin(n.pulse) + 1) / 2;
-        const px = n.x / canvas.width;
-        const r = Math.round(168 + (249 - 168) * px);
-        const g = Math.round(85 + (115 - 85) * px);
-        const b = Math.round(247 * (1 - px) + 22 * px);
+        const px = n.x / w;
+        const r = Math.round(139 + (16 - 139) * px);
+        const g = Math.round(92 + (185 - 92) * px);
+        const b = Math.round(246 + (129 - 246) * px);
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r * (1 + p * 0.6), 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${r},${g},${b},${0.3 + p * 0.5})`;
@@ -121,7 +128,7 @@ export default function NeuralHero() {
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      <canvas ref={canvasRef} className="absolute inset-0" />
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
       {/* Radial vignette */}
       <div
@@ -179,7 +186,7 @@ export default function NeuralHero() {
             <a
               href="#journey"
               className="px-7 py-3 rounded-full text-sm font-semibold text-white transition-transform hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #a855f7, #ec4899, #f97316)" }}
+              style={{ background: "linear-gradient(135deg, #8b5cf6, #22d3ee, #10b981)" }}
             >
               Explore
             </a>

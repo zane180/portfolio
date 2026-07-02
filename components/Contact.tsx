@@ -54,15 +54,15 @@ export default function Contact() {
           className="rounded-3xl p-12 text-center mb-16 relative overflow-hidden"
           style={{
             background:
-              "linear-gradient(135deg, rgba(168,85,247,0.15) 0%, rgba(236,72,153,0.12) 50%, rgba(249,115,22,0.1) 100%)",
-            border: "1px solid rgba(168,85,247,0.25)",
+              "linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(34,211,238,0.12) 50%, rgba(16,185,129,0.1) 100%)",
+            border: "1px solid rgba(139,92,246,0.25)",
           }}
         >
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "radial-gradient(ellipse at center, rgba(168,85,247,0.08) 0%, transparent 70%)",
+                "radial-gradient(ellipse at center, rgba(139,92,246,0.08) 0%, transparent 70%)",
             }}
           />
           <h2 className="text-4xl sm:text-5xl font-black text-white mb-4 relative z-10">
@@ -77,7 +77,7 @@ export default function Contact() {
             href="mailto:zaneluis83@gmail.com"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold text-white text-base transition-transform hover:scale-105 relative z-10"
             style={{
-              background: "linear-gradient(135deg, #a855f7, #ec4899, #f97316)",
+              background: "linear-gradient(135deg, #8b5cf6, #22d3ee, #10b981)",
             }}
           >
             Say Hello
@@ -98,7 +98,7 @@ export default function Contact() {
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                 style={{
-                  background: "linear-gradient(135deg, rgba(168,85,247,0.2), rgba(236,72,153,0.2))",
+                  background: "linear-gradient(135deg, rgba(139,92,246,0.2), rgba(34,211,238,0.2))",
                 }}
               >
                 <link.icon size={18} className="text-purple-400" />

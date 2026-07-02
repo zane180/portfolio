@@ -86,7 +86,7 @@ export default function Experience() {
           <div
             className="absolute left-5 top-0 bottom-0 w-px"
             style={{
-              background: "linear-gradient(to bottom, #a855f7, #ec4899, #f97316, transparent)",
+              background: "linear-gradient(to bottom, #8b5cf6, #22d3ee, #10b981, transparent)",
             }}
           />
 
@@ -98,8 +98,8 @@ export default function Experience() {
                 style={{
                   background:
                     item.type === "work"
-                      ? "linear-gradient(135deg, #a855f7, #ec4899)"
-                      : "linear-gradient(135deg, #f97316, #ec4899)",
+                      ? "linear-gradient(135deg, #8b5cf6, #22d3ee)"
+                      : "linear-gradient(135deg, #10b981, #22d3ee)",
                 }}
               />
 
@@ -122,7 +122,7 @@ export default function Experience() {
                       <span
                         className="mt-2 w-1.5 h-1.5 rounded-full shrink-0"
                         style={{
-                          background: "linear-gradient(135deg, #a855f7, #ec4899)",
+                          background: "linear-gradient(135deg, #8b5cf6, #22d3ee)",
                         }}
                       />
                       {b}
