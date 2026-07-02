@@ -31,14 +31,15 @@ export default function BeyondCode() {
           className="mb-10"
         >
           <p className="chapter-label mb-5">Chapter 05 — Beyond Code</p>
-          <h2
-            className="font-black text-white leading-none"
-            style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
-          >
-            Play as
-            <br />
-            <span className="gradient-text">Zane.</span>
-          </h2>
+          <div className="relative">
+            <span className="ghost-num">05</span>
+            <h2
+              className="font-black text-white leading-none"
+              style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
+            >
+              Play as <span className="serif-i gradient-text">Zane.</span>
+            </h2>
+          </div>
           <p className="text-slate-500 mt-4 text-base max-w-xl">
             Three playable moments from my life before code: captaining the varsity basketball
             final, defending a U18 swimming title, and learning Für Elise on the piano.

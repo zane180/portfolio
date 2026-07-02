@@ -38,14 +38,15 @@ export default function StoryContact() {
 
           <PredictionMarket />
 
-          <h2
-            className="font-black text-white leading-none mb-4"
-            style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
-          >
-            Let&apos;s build
-            <br />
-            <span className="gradient-text">something.</span>
-          </h2>
+          <div className="relative">
+            <span className="ghost-num">07</span>
+            <h2
+              className="font-black text-white leading-none mb-4"
+              style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
+            >
+              Let&apos;s build <span className="serif-i gradient-text">something.</span>
+            </h2>
+          </div>
 
           <p className="text-slate-400 text-lg max-w-xl mb-12 leading-relaxed">
             I&apos;m actively looking for{" "}

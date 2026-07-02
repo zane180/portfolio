@@ -1,4 +1,6 @@
 import AchievementHud from "@/components/AchievementHud";
+import Atmosphere from "@/components/Atmosphere";
+import SmoothScroll from "@/components/SmoothScroll";
 import { XRayToggle } from "@/components/XRay";
 import CustomCursor from "@/components/CustomCursor";
 import Navbar from "@/components/Navbar";
@@ -17,6 +19,8 @@ import StoryContact from "@/components/StoryContact";
 export default function Home() {
   return (
     <div>
+      <SmoothScroll />
+      <Atmosphere />
       <CustomCursor />
       <Navbar />
       <ChapterRail />

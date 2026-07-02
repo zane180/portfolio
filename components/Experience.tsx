@@ -72,13 +72,16 @@ export default function Experience() {
     <section id="experience" className="py-28 px-6">
       <div className="max-w-4xl mx-auto">
         <div className="mb-14">
-          <p className="text-purple-400 font-semibold text-sm uppercase tracking-widest mb-4">
-            Experience
-          </p>
-          <h2 className="text-4xl sm:text-5xl font-black text-white leading-tight">
-            Where I&apos;ve{" "}
-            <span className="gradient-text">worked.</span>
-          </h2>
+          <p className="chapter-label mb-5">Chapter 04 — The Reps</p>
+          <div className="relative">
+            <span className="ghost-num">04</span>
+            <h2
+              className="font-black text-white leading-none"
+              style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
+            >
+              The <span className="serif-i gradient-text">reps.</span>
+            </h2>
+          </div>
         </div>
 
         <div className="relative flex flex-col gap-0">
@@ -86,7 +89,7 @@ export default function Experience() {
           <div
             className="absolute left-5 top-0 bottom-0 w-px"
             style={{
-              background: "linear-gradient(to bottom, #8b5cf6, #22d3ee, #10b981, transparent)",
+              background: "linear-gradient(to bottom, var(--a1), var(--a2), var(--a3), transparent)",
             }}
           />
 

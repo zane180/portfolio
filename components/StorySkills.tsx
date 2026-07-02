@@ -47,12 +47,15 @@ export default function StorySkills() {
           className="mb-16"
         >
           <p className="chapter-label mb-5">Chapter 03 — The Craft</p>
-          <h2
-            className="font-black text-white leading-none"
-            style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
-          >
-            Stack
-          </h2>
+          <div className="relative">
+            <span className="ghost-num">03</span>
+            <h2
+              className="font-black text-white leading-none"
+              style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
+            >
+              The <span className="serif-i gradient-text">craft.</span>
+            </h2>
+          </div>
           <p className="text-slate-500 mt-4 text-base">
             Tools I use to ship. No fluff.
           </p>

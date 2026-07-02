@@ -108,12 +108,15 @@ export default function ProjectShowcase() {
           className="mb-16"
         >
           <p className="chapter-label mb-5">Chapter 02 — What I Build</p>
-          <h2
-            className="font-black text-white leading-none"
-            style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
-          >
-            Projects
-          </h2>
+          <div className="relative">
+            <span className="ghost-num">02</span>
+            <h2
+              className="font-black text-white leading-none"
+              style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
+            >
+              Built to <span className="serif-i gradient-text">ship.</span>
+            </h2>
+          </div>
           <p className="text-slate-500 mt-4 text-base max-w-lg">
             Production-grade systems, not demos. Every architectural decision was deliberate.
           </p>

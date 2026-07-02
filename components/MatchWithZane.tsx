@@ -133,11 +133,12 @@ export default function MatchWithZane() {
           className="mb-12"
         >
           <p className="chapter-label mb-5">Chapter 06 — The Algorithm, On You</p>
-          <h2 className="font-black text-white leading-none" style={{ fontSize: "clamp(42px, 8vw, 96px)" }}>
-            Match with
-            <br />
-            <span className="gradient-text">Zane.</span>
-          </h2>
+          <div className="relative">
+            <span className="ghost-num">06</span>
+            <h2 className="font-black text-white leading-none" style={{ fontSize: "clamp(42px, 8vw, 96px)" }}>
+              Match with <span className="serif-i gradient-text">Zane.</span>
+            </h2>
+          </div>
           <p className="text-slate-500 mt-4 text-base max-w-xl">
             This is the actual four-signal compatibility engine from Lovemaxxing — Jaccard
             similarity, weighted signals, normalized scoring — running on <span className="text-white">you</span>,

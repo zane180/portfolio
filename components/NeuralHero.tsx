@@ -60,8 +60,8 @@ export default function NeuralHero() {
           className="mt-10 flex flex-col items-center gap-6 pointer-events-auto"
           style={{ opacity: visible ? 1 : 0, transition: "opacity 1s ease 0.9s" }}
         >
-          <p className="text-slate-500 text-base sm:text-lg font-light tracking-widest uppercase">
-            Building AI systems that ship to production
+          <p className="serif-i text-slate-400 text-xl sm:text-2xl">
+            Building AI systems that actually <span className="gradient-text">ship.</span>
           </p>
 
           <div className="flex items-center gap-4">
