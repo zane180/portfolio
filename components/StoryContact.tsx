@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Mail, FileText, ArrowUpRight } from "lucide-react";
 import PredictionMarket from "./PredictionMarket";
+import ZaneMascot from "./ZaneMascot";
 
 function GithubIcon() {
   return (
@@ -40,6 +41,9 @@ export default function StoryContact() {
 
           <div className="relative">
             <span className="ghost-num">07</span>
+            <div className="hidden md:block absolute -top-[72px] right-16 z-10">
+              <ZaneMascot pose="hype" size={84} />
+            </div>
             <h2
               className="font-black text-white leading-none mb-4"
               style={{ fontSize: "clamp(42px, 8vw, 96px)" }}

@@ -46,19 +46,21 @@ export default function StorySkills() {
           transition={{ duration: 0.7 }}
           className="mb-16"
         >
-          <p className="chapter-label mb-5">Chapter 03 — The Craft</p>
-          <div className="relative">
-            <span className="ghost-num">03</span>
-            <h2
-              className="font-black text-white leading-none"
-              style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
-            >
-              The <span className="serif-i gradient-text">craft.</span>
-            </h2>
+          <div className="text-right">
+            <p className="chapter-label mb-5">Chapter 03 — The Craft</p>
+            <div className="relative">
+              <span className="ghost-num" style={{ right: "auto", left: "-0.04em" }}>03</span>
+              <h2
+                className="font-black text-white leading-none"
+                style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
+              >
+                The <span className="serif-i gradient-text">craft.</span>
+              </h2>
+            </div>
+            <p className="text-slate-500 mt-4 text-base">
+              Tools I use to ship. No fluff.
+            </p>
           </div>
-          <p className="text-slate-500 mt-4 text-base">
-            Tools I use to ship. No fluff.
-          </p>
         </motion.div>
 
         <div className="flex flex-col gap-8">
@@ -101,6 +103,7 @@ function SkillRow({
       animate={inView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.5, delay: groupIndex * 0.08 }}
       className="flex items-start gap-6"
+      style={{ paddingLeft: `min(${groupIndex * 3.5}vw, ${groupIndex * 44}px)` }}
     >
       <div className="flex items-center gap-3 w-28 shrink-0 pt-1">
         <div

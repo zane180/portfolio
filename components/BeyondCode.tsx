@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useInView, motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import ZaneMascot from "./ZaneMascot";
 
 const Piano = dynamic(() => import("./Piano"), { ssr: false });
 const BasketballGame = dynamic(() => import("./BasketballGame"), { ssr: false });
@@ -31,7 +32,7 @@ export default function BeyondCode() {
           className="mb-10"
         >
           <p className="chapter-label mb-5">Chapter 05 — Beyond Code</p>
-          <div className="relative">
+          <div className="relative flex items-end gap-6">
             <span className="ghost-num">05</span>
             <h2
               className="font-black text-white leading-none"
@@ -39,6 +40,9 @@ export default function BeyondCode() {
             >
               Play as <span className="serif-i gradient-text">Zane.</span>
             </h2>
+            <div className="hidden sm:block shrink-0 -mb-2">
+              <ZaneMascot pose="ball" size={88} />
+            </div>
           </div>
           <p className="text-slate-500 mt-4 text-base max-w-xl">
             Three playable moments from my life before code: captaining the varsity basketball

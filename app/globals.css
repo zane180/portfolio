@@ -100,6 +100,21 @@ h1, h2, h3 {
   .ghost-num { opacity: 0.55; }
 }
 
+/* Rotated editorial side labels */
+.side-label {
+  position: absolute;
+  top: 50%;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--a1) 40%, transparent);
+  user-select: none;
+  pointer-events: none;
+}
+
 .gradient-border {
   position: relative;
   border-radius: 16px;

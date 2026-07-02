@@ -98,7 +98,10 @@ export default function ProjectShowcase() {
   };
 
   return (
-    <section id="projects" className="py-32 px-6">
+    <section id="projects" className="py-32 px-6 relative">
+      <span className="side-label right-4 hidden xl:block" style={{ transform: "translateY(-50%)" }}>
+        Selected Works · 2024 — 2026
+      </span>
       <div className="max-w-5xl mx-auto">
         <motion.div
           ref={titleRef}

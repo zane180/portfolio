@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import ZaneMascot from "./ZaneMascot";
 
 const stops = [
   {
@@ -71,8 +72,12 @@ export default function EducationJourney() {
   const titleInView = useInView(titleRef, { once: true });
 
   return (
-    <section id="journey" className="py-32 px-6 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+    <section id="journey" className="py-32 px-6 overflow-hidden relative">
+      <span className="side-label left-4 hidden xl:block">Dubai → Ann Arbor</span>
+      <div className="max-w-7xl mx-auto relative">
+        <div className="hidden lg:block absolute -top-16 right-4 z-10">
+          <ZaneMascot pose="wave" size={92} />
+        </div>
         <motion.div
           ref={titleRef}
           initial={{ opacity: 0, y: 30 }}
@@ -119,7 +124,13 @@ export default function EducationJourney() {
 
           <div className="grid lg:grid-cols-3 gap-6">
             {stops.map((stop, i) => (
-              <JourneyCard key={stop.city} stop={stop} index={i} />
+              // Diagonal stagger — the journey literally steps upward
+              <div
+                key={stop.city}
+                className={i === 0 ? "lg:translate-y-14" : i === 1 ? "lg:translate-y-7" : ""}
+              >
+                <JourneyCard stop={stop} index={i} />
+              </div>
             ))}
           </div>
         </div>

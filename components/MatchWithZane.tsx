@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { unlock } from "./achievements";
 import { XRayNote } from "./XRay";
+import ZaneMascot from "./ZaneMascot";
 
 // ——— Zane's actual profile (the algorithm's "user B") ———
 const ZANE_INTERESTS = ["AI/ML", "Startups", "Basketball", "Music", "Fitness", "Travel", "Space", "Gaming"];
@@ -133,11 +134,14 @@ export default function MatchWithZane() {
           className="mb-12"
         >
           <p className="chapter-label mb-5">Chapter 06 — The Algorithm, On You</p>
-          <div className="relative">
+          <div className="relative flex items-end gap-6">
             <span className="ghost-num">06</span>
             <h2 className="font-black text-white leading-none" style={{ fontSize: "clamp(42px, 8vw, 96px)" }}>
               Match with <span className="serif-i gradient-text">Zane.</span>
             </h2>
+            <div className="hidden sm:block shrink-0 -mb-2">
+              <ZaneMascot pose="wave" size={80} />
+            </div>
           </div>
           <p className="text-slate-500 mt-4 text-base max-w-xl">
             This is the actual four-signal compatibility engine from Lovemaxxing — Jaccard
