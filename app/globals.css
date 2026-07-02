@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #06060a;
+  --background: #04040a;
   --foreground: #f1f5f9;
 }
 
@@ -12,26 +12,31 @@
   --font-mono: var(--font-geist-mono);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
+* {
+  box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
+  cursor: none;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  overflow-x: hidden;
 }
-::-webkit-scrollbar-track {
-  background: #06060a;
+
+a, button {
+  cursor: none;
 }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #04040a; }
 ::-webkit-scrollbar-thumb {
-  background: #a855f7;
-  border-radius: 3px;
+  background: linear-gradient(to bottom, #a855f7, #f97316);
+  border-radius: 2px;
 }
 
 .gradient-text {
@@ -51,25 +56,93 @@ html {
   inset: 0;
   border-radius: 16px;
   padding: 1px;
-  background: linear-gradient(135deg, #a855f7, #ec4899, #f97316);
+  background: linear-gradient(135deg, rgba(168,85,247,0.5), rgba(236,72,153,0.3), rgba(249,115,22,0.5));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
 }
 
+.chapter-label {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(168, 85, 247, 0.5);
+}
+
 .glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(20px);
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
 }
 
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, -3%); }
+  30% { transform: translate(2%, -1%); }
+  50% { transform: translate(-1%, 2%); }
+  70% { transform: translate(3%, 1%); }
+  90% { transform: translate(-2%, 3%); }
+}
+
+.noise::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  animation: grain 0.5s steps(1) infinite;
+  z-index: 9999;
+}
+
+/* Piano keys */
+.piano-key-white {
+  background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
+  border: 1px solid #ccc;
+  border-radius: 0 0 8px 8px;
+  transition: background 0.05s;
+}
+.piano-key-white.active {
+  background: linear-gradient(to bottom, #c4b5fd, #a855f7);
+}
+.piano-key-black {
+  background: linear-gradient(to bottom, #1a1a2e, #0d0d1a);
+  border: 1px solid #333;
+  border-radius: 0 0 5px 5px;
+  transition: background 0.05s;
+}
+.piano-key-black.active {
+  background: linear-gradient(to bottom, #7c3aed, #a855f7);
+}
+
+/* Cursor */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  mix-blend-mode: normal;
+  transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease;
+}
+
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99998;
+  transition: transform 0.15s ease;
 }

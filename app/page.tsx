@@ -1,23 +1,27 @@
+import CustomCursor from "@/components/CustomCursor";
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Projects from "@/components/Projects";
-import Skills from "@/components/Skills";
+import NeuralHero from "@/components/NeuralHero";
+import EducationJourney from "@/components/EducationJourney";
+import ProjectShowcase from "@/components/ProjectShowcase";
+import StorySkills from "@/components/StorySkills";
 import Experience from "@/components/Experience";
-import Contact from "@/components/Contact";
+import BeyondCode from "@/components/BeyondCode";
+import StoryContact from "@/components/StoryContact";
 
 export default function Home() {
   return (
-    <>
+    <div className="noise">
+      <CustomCursor />
       <Navbar />
       <main>
-        <Hero />
-        <About />
-        <Projects />
-        <Skills />
+        <NeuralHero />
+        <EducationJourney />
+        <ProjectShowcase />
+        <StorySkills />
         <Experience />
-        <Contact />
+        <BeyondCode />
+        <StoryContact />
       </main>
-    </>
+    </div>
   );
 }
