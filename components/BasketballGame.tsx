@@ -374,7 +374,7 @@ export default function BasketballGame() {
         const d = Math.sqrt(dx * dx + dy * dy);
         // Arcade-forgiving: small collision radius so the rim doesn't
         // swallow the scoring window (physically-accurate = unplayable)
-        const minD = 9;
+        const minD = 5;
         if (d < minD && d > 0) {
           const nx = dx / d;
           const ny = dy / d;
@@ -424,29 +424,56 @@ export default function BasketballGame() {
       if (aim.aiming) {
         const dx = aim.sx - aim.cx;
         const dy = aim.sy - aim.cy;
-        const power = Math.min(Math.sqrt(dx * dx + dy * dy), 300);
+        const power = Math.min(Math.sqrt(dx * dx + dy * dy), 240);
         const ang = Math.atan2(dy, dx);
-        let tvx = Math.cos(ang) * power * 3.8;
-        let tvy = Math.sin(ang) * power * 3.8;
+        let tvx = Math.cos(ang) * power * 3.9;
+        let tvy = Math.sin(ang) * power * 3.9;
         let tx = sx + 14;
         let ty = sy - 56;
-        ctx.setLineDash([3, 7]);
-        ctx.strokeStyle = "rgba(34,211,238,0.5)";
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(tx, ty);
-        for (let i = 0; i < 90; i++) {
+
+        // Simulate the arc first to know if this aim scores
+        const pts: [number, number][] = [[tx, ty]];
+        let willScore = false;
+        for (let i = 0; i < 140; i++) {
+          const prevTy = ty;
           tvy += GRAVITY / 60;
           tx += tvx / 60;
           ty += tvy / 60;
-          if (ty > floorY) break;
-          ctx.lineTo(tx, ty);
+          if (
+            prevTy < hy &&
+            ty >= hy &&
+            tvy > 0 &&
+            Math.abs(tx - hx) < HOOP_R + 8
+          ) {
+            willScore = true;
+            pts.push([tx, ty]);
+            break;
+          }
+          if (ty > floorY || tx > w + 40) break;
+          pts.push([tx, ty]);
         }
+
+        // Draw it — green when it's money
+        ctx.setLineDash([3, 7]);
+        ctx.strokeStyle = willScore ? "rgba(34,197,94,0.85)" : "rgba(34,211,238,0.5)";
+        ctx.lineWidth = willScore ? 2.5 : 2;
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0], pts[0][1]);
+        for (const [px, py] of pts) ctx.lineTo(px, py);
         ctx.stroke();
         ctx.setLineDash([]);
 
+        // Rim glow on a projected make
+        if (willScore) {
+          ctx.beginPath();
+          ctx.arc(hx, hy, HOOP_R + 10, 0, Math.PI * 2);
+          ctx.strokeStyle = "rgba(34,197,94,0.35)";
+          ctx.lineWidth = 6;
+          ctx.stroke();
+        }
+
         // Power meter
-        const pct = power / 300;
+        const pct = power / 240;
         ctx.fillStyle = "rgba(0,0,0,0.5)";
         ctx.beginPath();
         ctx.roundRect(16, h - 34, 110, 10, 5);
@@ -464,17 +491,20 @@ export default function BasketballGame() {
         ball.x += ball.vx * dt;
         ball.y += ball.vy * dt;
 
-        collideRim(ball);
-        if (!ball.scored) collideDefenders(ball, time);
-
-        // Score check: crossed rim plane downward, inside rim, below-net exit
-        if (
+        // Score check FIRST — a made shot can't be stolen by rim physics
+        const scoredNow =
           !ball.scored &&
           prevY < hy &&
           ball.y >= hy &&
           ball.vy > 0 &&
-          Math.abs(ball.x - hx) < HOOP_R - 5
-        ) {
+          Math.abs(ball.x - hx) < HOOP_R + 8;
+
+        if (!scoredNow) {
+          collideRim(ball);
+          if (!ball.scored) collideDefenders(ball, time);
+        }
+
+        if (scoredNow) {
           ball.scored = true;
           scoreRef.current += 1;
           attemptsRef.current += 1;
@@ -536,10 +566,11 @@ export default function BasketballGame() {
     return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   };
 
+  // Pull-back slingshot: the vector is drag-start → current mouse (reversed),
+  // no matter where on the court you start the drag.
   const aimStart = (x: number, y: number) => {
     if (ballRef.current?.active) return;
-    const { w, h } = dimsRef.current;
-    aimRef.current = { aiming: true, sx: w * SHOOTER_X + 14, sy: h * SHOOTER_Y - 56, cx: x, cy: y };
+    aimRef.current = { aiming: true, sx: x, sy: y, cx: x, cy: y };
   };
   const aimMove = (x: number, y: number) => {
     if (!aimRef.current.aiming) return;
@@ -552,20 +583,42 @@ export default function BasketballGame() {
     aim.aiming = false;
     const dx = aim.sx - aim.cx;
     const dy = aim.sy - aim.cy;
-    const power = Math.min(Math.sqrt(dx * dx + dy * dy), 300);
+    const power = Math.min(Math.sqrt(dx * dx + dy * dy), 240);
     if (power < 12) return;
     const ang = Math.atan2(dy, dx);
+    const { w, h } = dimsRef.current;
     ballRef.current = {
-      x: aim.sx,
-      y: aim.sy,
-      vx: Math.cos(ang) * power * 3.8,
-      vy: Math.sin(ang) * power * 3.8,
+      x: w * SHOOTER_X + 14,
+      y: h * SHOOTER_Y - 56,
+      vx: Math.cos(ang) * power * 3.9,
+      vy: Math.sin(ang) * power * 3.9,
       active: true,
       scored: false,
       bounces: 0,
     };
     shootPoseRef.current = 1;
   };
+  const aimReleaseRef = useRef(aimRelease);
+  aimReleaseRef.current = aimRelease;
+
+  // Track the drag at window level — releasing outside the canvas
+  // no longer kills the shot (this was why shots never reached).
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      if (!aimRef.current.aiming) return;
+      const rect = canvasRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      aimRef.current.cx = e.clientX - rect.left;
+      aimRef.current.cy = e.clientY - rect.top;
+    };
+    const onUp = () => aimReleaseRef.current();
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
+  }, []);
 
   const reset = () => {
     scoreRef.current = 0;
@@ -584,7 +637,8 @@ export default function BasketballGame() {
         <h3 className="text-3xl font-black text-white">Score {TARGET_SCORE} to Win the Final</h3>
         <p className="text-slate-500 text-sm mt-1 max-w-md">
           Varsity Finals. As captain, the last shots are yours — but the defense has hands.
-          Drag anywhere to aim, release to shoot over the block.
+          Drag back anywhere to aim — when the arc turns{" "}
+          <span className="text-green-400 font-semibold">green</span>, let it fly.
         </p>
       </div>
 
@@ -610,9 +664,6 @@ export default function BasketballGame() {
           ref={canvasRef}
           className="w-full h-full cursor-crosshair"
           onMouseDown={(e) => { const p = getPos(e); aimStart(p.x, p.y); }}
-          onMouseMove={(e) => { const p = getPos(e); aimMove(p.x, p.y); }}
-          onMouseUp={aimRelease}
-          onMouseLeave={aimRelease}
           onTouchStart={(e) => { const p = getPos(e.touches[0]); aimStart(p.x, p.y); }}
           onTouchMove={(e) => { const p = getPos(e.touches[0]); aimMove(p.x, p.y); }}
           onTouchEnd={aimRelease}
