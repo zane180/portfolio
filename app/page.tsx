@@ -1,3 +1,4 @@
+import AchievementHud from "@/components/AchievementHud";
 import CustomCursor from "@/components/CustomCursor";
 import Navbar from "@/components/Navbar";
 import ChapterRail from "@/components/ChapterRail";
@@ -17,6 +18,7 @@ export default function Home() {
       <CustomCursor />
       <Navbar />
       <ChapterRail />
+      <AchievementHud />
       <main>
         <NeuralHero />
         <MarqueeStrip />

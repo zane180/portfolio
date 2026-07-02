@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { unlock } from "./achievements";
 
 // Each chapter carries its own color world — the whole site morphs as you travel.
 const CHAPTERS = [
@@ -17,6 +18,7 @@ const CHAPTERS = [
 export default function ChapterRail() {
   const [active, setActive] = useState("hero");
   const [progress, setProgress] = useState(0);
+  const visitedRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -25,6 +27,8 @@ export default function ChapterRail() {
           if (entry.isIntersecting) {
             const id = entry.target.id;
             setActive(id);
+            visitedRef.current.add(id);
+            if (visitedRef.current.size >= CHAPTERS.length) unlock("explorer");
             const ch = CHAPTERS.find((c) => c.id === id);
             if (ch) {
               const root = document.documentElement;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
+import { unlock } from "./achievements";
 
 const NOTES: Record<string, number> = {
   C4: 261.63, "C#4": 277.18, D4: 293.66, "D#4": 311.13, E4: 329.63,
@@ -162,6 +163,7 @@ export default function Piano() {
         setProgress(next);
         if (next >= FUR_ELISE.length) {
           setComplete(true);
+          unlock("fur-elise");
         }
       } else {
         setWrongFlash(true);

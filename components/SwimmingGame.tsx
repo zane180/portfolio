@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import { sfx } from "./sfx";
+import { unlock } from "./achievements";
 
 type Phase = "ready" | "countdown" | "racing" | "finished";
 
@@ -284,6 +285,7 @@ export default function SwimmingGame() {
           setPhaseBoth("finished");
           if (place === 1) {
             sfx.cheer();
+            unlock("champion");
           } else {
             sfx.buzzer();
           }

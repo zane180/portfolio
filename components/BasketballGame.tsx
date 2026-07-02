@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import { sfx } from "./sfx";
+import { unlock } from "./achievements";
 
 interface Ball {
   x: number;
@@ -519,6 +520,7 @@ export default function BasketballGame() {
             setWon(true);
             spawnConfetti(w, h);
             setTimeout(() => sfx.cheer(), 300);
+            unlock("buckets");
           }
         }
 

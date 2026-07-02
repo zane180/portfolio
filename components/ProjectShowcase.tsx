@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ExternalLink, Lock, ChevronDown } from "lucide-react";
+import { unlock } from "./achievements";
 
 function GithubIcon({ size = 16 }: { size?: number }) {
   return (
@@ -89,6 +90,12 @@ export default function ProjectShowcase() {
   const titleRef = useRef(null);
   const titleInView = useInView(titleRef, { once: true });
   const [expanded, setExpanded] = useState<string | null>("Lovemaxxing");
+  const seenRef = useRef<Set<string>>(new Set(["Lovemaxxing"]));
+
+  const trackExpand = (title: string) => {
+    seenRef.current.add(title);
+    if (seenRef.current.size >= projects.length) unlock("deep-diver");
+  };
 
   return (
     <section id="projects" className="py-32 px-6">
@@ -119,7 +126,10 @@ export default function ProjectShowcase() {
               project={p}
               index={i}
               isExpanded={expanded === p.title}
-              onToggle={() => setExpanded(expanded === p.title ? null : p.title)}
+              onToggle={() => {
+                if (expanded !== p.title) trackExpand(p.title);
+                setExpanded(expanded === p.title ? null : p.title);
+              }}
             />
           ))}
         </div>

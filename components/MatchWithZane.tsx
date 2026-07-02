@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
+import { unlock } from "./achievements";
 
 // ——— Zane's actual profile (the algorithm's "user B") ———
 const ZANE_INTERESTS = ["AI/ML", "Startups", "Basketball", "Music", "Fitness", "Travel", "Space", "Gaming"];
@@ -76,6 +77,7 @@ export default function MatchWithZane() {
   // Count-up animation on result screen
   useEffect(() => {
     if (step !== 5) return;
+    unlock("matched");
     setDisplayScore(0);
     let frame: number;
     const start = performance.now();
