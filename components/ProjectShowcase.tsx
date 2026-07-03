@@ -52,9 +52,9 @@ const projects = [
   {
     number: "03",
     title: "Snake & Ladder Engine",
-    tagline: "PSU CMPSC 132 Final Project",
+    tagline: "Data Structures Course Capstone",
     description:
-      "A fully engineered Snake & Ladder game built from scratch with OOP principles and explicit data structure choices — Penn State CMPSC 132 capstone.",
+      "A fully engineered Snake & Ladder game built from scratch with OOP principles and explicit data structure choices — a freshman-year CS capstone.",
     tech: ["Python", "OOP", "Graph Theory", "Data Structures"],
     highlights: [
       "Board modeled as a directed graph; snakes/ladders as edges enabling O(1) position lookup",

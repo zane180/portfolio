@@ -26,7 +26,7 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Zane Luis — AI Engineer",
+  title: "Zane Luis — AI Engineering",
   description:
     "Portfolio of Zane Luis, CS student at University of Michigan building AI-powered systems. Targeting AI Engineering internships for Summer 2027.",
   keywords: ["AI Engineering", "Machine Learning", "Next.js", "FastAPI", "University of Michigan"],

@@ -44,9 +44,9 @@ const projects: Project[] = [
   },
   {
     title: "Snake & Ladder Engine",
-    tagline: "PSU CMPSC 132 Final Project",
+    tagline: "Data Structures Course Capstone",
     description:
-      "A fully playable Snake & Ladder game built from scratch using object-oriented design principles and core data structures — implemented as a Penn State CMPSC 132 capstone.",
+      "A fully playable Snake & Ladder game built from scratch using object-oriented design principles and core data structures — implemented as a freshman-year CS capstone.",
     highlights: [
       "Designed with OOP principles: Player, Board, Snake, Ladder, and GameEngine classes with clear encapsulation and single-responsibility boundaries",
       "Board represented as a graph-adjacency structure; snake/ladder jumps modeled as directed edges enabling O(1) position lookup",

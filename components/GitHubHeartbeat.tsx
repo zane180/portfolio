@@ -58,7 +58,10 @@ export default function GitHubHeartbeat() {
       .catch(() => setError(true));
   }, []);
 
-  // EKG animation
+  // ECG animation — works like a real bedside monitor: the last 14 days
+  // map onto the strip, every commit lays down a PQRST complex (amplitude
+  // scaled by that day's volume), and a sweep cursor redraws the trace,
+  // erasing ahead of itself while the previous pass lingers dimmed.
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || days.length === 0) return;
@@ -73,61 +76,106 @@ export default function GitHubHeartbeat() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     const max = Math.max(...days.map((d) => d.count), 1);
-    let frame = 0;
+    const baseline = h * 0.62;
+
+    // One heartbeat per commit (capped per day so busy days don't smear),
+    // spaced evenly inside that day's slice of the strip.
+    const seg = w / days.length;
+    const beats: { x: number; amp: number }[] = [];
+    days.forEach((d, i) => {
+      if (d.count === 0) return;
+      const n = Math.min(d.count, 3);
+      const amp = 0.45 + 0.55 * (d.count / max);
+      for (let k = 0; k < n; k++) {
+        beats.push({ x: i * seg + seg * ((k + 1) / (n + 1)), amp });
+      }
+    });
+
+    const bump = (x: number, cx: number, sd: number) =>
+      Math.exp(-((x - cx) ** 2) / (2 * sd * sd));
+    // Canonical ECG morphology: P wave, QRS complex, T wave
+    const waveAt = (x: number) => {
+      let y = 0;
+      for (const b of beats) {
+        if (Math.abs(x - b.x) > 34) continue;
+        y +=
+          b.amp *
+          (0.14 * bump(x, b.x - 16, 4) -
+            0.12 * bump(x, b.x - 4, 1.6) +
+            1.0 * bump(x, b.x, 2.2) -
+            0.28 * bump(x, b.x + 4.5, 1.8) +
+            0.22 * bump(x, b.x + 17, 5));
+      }
+      return baseline - y * h * 0.4;
+    };
+    const wave = new Float32Array(w + 1);
+    for (let x = 0; x <= w; x++) wave[x] = waveAt(x);
+
+    const SWEEP_MS = 8000;
+    const ERASE_GAP = 26;
+    let start: number | null = null;
     let raf: number;
 
-    const draw = () => {
-      frame++;
+    const strokeWave = (from: number, to: number, color: string, width: number, glow: number) => {
+      const x0 = Math.max(0, Math.floor(from));
+      const x1 = Math.min(w, Math.ceil(to));
+      if (x1 <= x0) return;
+      ctx.beginPath();
+      ctx.moveTo(x0, wave[x0]);
+      for (let x = x0 + 1; x <= x1; x++) ctx.lineTo(x, wave[x]);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = glow;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    };
+
+    const draw = (time: number) => {
+      if (start === null) start = time;
+      const sweep = (((time - start) % SWEEP_MS) / SWEEP_MS) * w;
       ctx.clearRect(0, 0, w, h);
 
-      // Grid
+      // ECG paper grid
       ctx.strokeStyle = "rgba(255,255,255,0.04)";
       ctx.lineWidth = 1;
-      for (let x = 0; x < w; x += 20) {
+      for (let x = 0; x < w; x += 16) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
         ctx.lineTo(x, h);
         ctx.stroke();
       }
-
-      // EKG line: flatline between days, spike per commit count
-      const seg = w / days.length;
-      const baseline = h * 0.7;
-      ctx.beginPath();
-      ctx.moveTo(0, baseline);
-      days.forEach((d, i) => {
-        const cx = i * seg + seg / 2;
-        if (d.count === 0) {
-          ctx.lineTo(cx + seg / 2, baseline);
-        } else {
-          const spike = (d.count / max) * h * 0.55;
-          ctx.lineTo(cx - seg * 0.25, baseline);
-          ctx.lineTo(cx - seg * 0.1, baseline - spike);
-          ctx.lineTo(cx + seg * 0.05, baseline + spike * 0.25);
-          ctx.lineTo(cx + seg * 0.18, baseline);
-        }
-      });
-      ctx.lineTo(w, baseline);
+      for (let y = h % 12; y < h; y += 12) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
 
       const style = getComputedStyle(document.documentElement);
       const a1 = style.getPropertyValue("--a1").trim() || "#8b5cf6";
-      ctx.strokeStyle = a1;
-      ctx.lineWidth = 1.8;
-      ctx.shadowColor = a1;
-      ctx.shadowBlur = 6;
-      ctx.stroke();
-      ctx.shadowBlur = 0;
 
-      // Traveling pulse dot
-      const px = (frame * 1.2) % w;
+      // Previous pass lingers ahead of the erase gap, dimmed
+      ctx.globalAlpha = 0.25;
+      strokeWave(sweep + ERASE_GAP, w, a1, 1.4, 0);
+      ctx.globalAlpha = 1;
+      // Current pass, bright up to the cursor
+      strokeWave(0, sweep, a1, 1.8, 6);
+
+      // Cursor rides the waveform and flares on an R spike
+      const cy = wave[Math.min(w, Math.floor(sweep))];
+      const spiking = baseline - cy > h * 0.12;
       ctx.beginPath();
-      ctx.arc(px, baseline, 2.5, 0, Math.PI * 2);
+      ctx.arc(sweep, cy, spiking ? 3.5 : 2.5, 0, Math.PI * 2);
       ctx.fillStyle = "white";
+      ctx.shadowColor = "white";
+      ctx.shadowBlur = spiking ? 12 : 4;
       ctx.fill();
+      ctx.shadowBlur = 0;
 
       raf = requestAnimationFrame(draw);
     };
-    draw();
+    raf = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(raf);
   }, [days]);
 

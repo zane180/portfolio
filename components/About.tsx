@@ -4,7 +4,7 @@ import { GraduationCap, MapPin, Trophy } from "lucide-react";
 
 const stats = [
   { value: "98/100", label: "CS Score @ GMA" },
-  { value: "Dean's", label: "List @ PSU" },
+  { value: "Dean's", label: "List — Freshman Year" },
   { value: "2027", label: "Target Internship" },
   { value: "2+", label: "Prod. AI Systems" },
 ];
@@ -31,8 +31,8 @@ export default function About() {
             </h2>
             <p className="text-slate-400 leading-relaxed mb-4">
               I&apos;m Zane Luis, a sophomore studying Computer Science at the{" "}
-              <span className="text-white font-medium">University of Michigan</span>. I transferred
-              from Penn State where I made the Dean&apos;s List, and before that grew up in Dubai, UAE —
+              <span className="text-white font-medium">University of Michigan</span>. I made the
+              Dean&apos;s List my freshman year, and before that grew up in Dubai, UAE —
               graduating with a 90% ISC aggregate.
             </p>
             <p className="text-slate-400 leading-relaxed mb-4">

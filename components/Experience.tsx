@@ -57,8 +57,8 @@ const items: Item[] = [
   },
   {
     type: "activity",
-    role: "Member — Machine Learning",
-    org: "ML @ Penn State",
+    role: "Member — Machine Learning Club",
+    org: "University Machine Learning Community",
     period: "August 2025 – Present",
     bullets: [
       "Built a Python text sentiment classifier using Keras at the Cursor & MCP Showcase",

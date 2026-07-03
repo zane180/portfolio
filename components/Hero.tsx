@@ -20,7 +20,7 @@ function LinkedinIcon({ size = 22 }: { size?: number }) {
 }
 
 const roles = [
-  "AI Engineer",
+  "AI Engineering",
   "Full-Stack Developer",
   "ML Enthusiast",
   "CS @ UMich",

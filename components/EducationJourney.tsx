@@ -26,26 +26,6 @@ const stops = [
       "Where curiosity met code. Top of class, captained the basketball team, taught myself to build things, and discovered a love for turning ideas into software.",
   },
   {
-    emoji: "🦁",
-    city: "State College",
-    country: "Pennsylvania",
-    school: "Penn State University",
-    period: "2024 – 2025",
-    chapter: "The Ignition",
-    accent: "#3b82f6",
-    accentBg: "rgba(59,130,246,0.08)",
-    accentBorder: "rgba(59,130,246,0.2)",
-    achievements: [
-      "BS Computer Science",
-      "Dean's List",
-      "ML@PSU — built Keras sentiment classifier",
-      "Shipped Lovemaxxing — AI dating platform",
-      "Shipped Sentify — AI emotion detector",
-    ],
-    story:
-      "The AI chapter begins. Shipped two production AI systems, joined the machine learning club, made Dean's List, and realized I wanted to build at the frontier.",
-  },
-  {
     emoji: "〽️",
     city: "Ann Arbor",
     country: "Michigan",
@@ -58,12 +38,12 @@ const stops = [
     achievements: [
       "BS Computer Science",
       "#1 CS program in the Midwest",
-      "Targeting FAANG AI Engineering",
-      "Summer 2027 internship hunt — active",
-      "Building more production AI systems",
+      "Dean's List — freshman year",
+      "Shipped Lovemaxxing & Sentify — production AI systems",
+      "Targeting FAANG AI Engineering — Summer 2027",
     ],
     story:
-      "The endgame. One of the best CS programs in the country. The mission: become an AI engineer who builds systems that scale, matter, and ship to millions.",
+      "The AI chapter. One of the best CS programs in the country, two production AI systems shipped. The mission: become an AI engineer who builds systems that scale, matter, and ship to millions.",
   },
 ];
 
@@ -96,41 +76,34 @@ export default function EducationJourney() {
             </h2>
           </div>
           <p className="text-slate-500 mt-4 text-base max-w-xl">
-            Dubai to Pennsylvania to Michigan. Three cities, one trajectory.
+            Dubai to Michigan. Two cities, one trajectory.
           </p>
         </motion.div>
 
         {/* Path line */}
         <div className="relative">
           <div
-            className="hidden lg:block absolute top-[88px] left-[16.66%] right-[16.66%] h-px"
+            className="hidden lg:block absolute top-[88px] left-[25%] right-[25%] h-px"
             style={{
-              background:
-                "linear-gradient(to right, #f59e0b40, #3b82f640, #eab30840)",
+              background: "linear-gradient(to right, #f59e0b40, #eab30840)",
             }}
           />
           {/* Dots on path */}
-          {[0, 1, 2].map((i) => (
+          {[0, 1].map((i) => (
             <div
               key={i}
               className="hidden lg:block absolute top-[82px] w-3 h-3 rounded-full"
               style={{
-                left: `calc(${16.66 + i * 33.33}% - 6px)`,
-                background: [stops[0].accent, stops[1].accent, stops[2].accent][i],
-                boxShadow: `0 0 12px ${[stops[0].accent, stops[1].accent, stops[2].accent][i]}`,
+                left: `calc(${25 + i * 50}% - 6px)`,
+                background: stops[i].accent,
+                boxShadow: `0 0 12px ${stops[i].accent}`,
               }}
             />
           ))}
 
-          <div className="grid lg:grid-cols-3 gap-6">
+          <div className="grid lg:grid-cols-2 gap-6">
             {stops.map((stop, i) => (
-              // Diagonal stagger — the journey literally steps upward
-              <div
-                key={stop.city}
-                className={i === 0 ? "lg:translate-y-14" : i === 1 ? "lg:translate-y-7" : ""}
-              >
-                <JourneyCard stop={stop} index={i} />
-              </div>
+              <JourneyCard key={stop.city} stop={stop} index={i} />
             ))}
           </div>
         </div>

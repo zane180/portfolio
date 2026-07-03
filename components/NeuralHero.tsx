@@ -32,7 +32,7 @@ export default function NeuralHero() {
           className="chapter-label mb-10"
           style={{ opacity: visible ? 1 : 0, transition: "opacity 1s ease 0.2s" }}
         >
-          Dubai-raised · Michigan-made · AI Engineer
+          Dubai-raised · Michigan-made · AI Engineering
         </p>
 
         <div
@@ -64,21 +64,13 @@ export default function NeuralHero() {
             Building AI systems that actually <span className="gradient-text">ship.</span>
           </p>
 
-          <div className="flex items-center gap-4">
-            <a
-              href="#journey"
-              className="px-7 py-3 rounded-full text-sm font-semibold text-white transition-transform hover:scale-105"
-              style={{ background: "linear-gradient(135deg, var(--a1), var(--a2), var(--a3))" }}
-            >
-              Explore
-            </a>
-            <a
-              href="#contact"
-              className="px-7 py-3 rounded-full text-sm font-semibold text-slate-400 border border-white/10 hover:border-white/25 transition-colors"
-            >
-              Hire Me
-            </a>
-          </div>
+          <a
+            href="#journey"
+            className="px-7 py-3 rounded-full text-sm font-semibold text-white transition-transform hover:scale-105"
+            style={{ background: "linear-gradient(135deg, var(--a1), var(--a2), var(--a3))" }}
+          >
+            Explore
+          </a>
         </div>
 
         <div

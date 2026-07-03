@@ -36,6 +36,7 @@ export default function SwimmingGame() {
   const [phase, setPhase] = useState<Phase>("ready");
   const [placement, setPlacement] = useState<number | null>(null);
   const [raceTime, setRaceTime] = useState(0);
+  const finishedAtRef = useRef(0);
 
   const setPhaseBoth = (p: Phase) => {
     phaseRef.current = p;
@@ -65,7 +66,7 @@ export default function SwimmingGame() {
       countdownRef.current -= 1;
       if (countdownRef.current <= 0) {
         setPhaseBoth("racing");
-        sfx.whistle();
+        sfx.startBeep();
       } else {
         setTimeout(tick, 800);
       }
@@ -94,8 +95,12 @@ export default function SwimmingGame() {
     const onKey = (e: KeyboardEvent) => {
       if (e.code === "Space") {
         e.preventDefault();
-        if (phaseRef.current === "ready" || phaseRef.current === "finished") {
+        if (phaseRef.current === "ready") {
           startRace();
+        } else if (phaseRef.current === "finished") {
+          // Grace period: the player is still mashing SPACE when they hit
+          // the wall — without this the race instantly restarts itself.
+          if (Date.now() - finishedAtRef.current > 1200) startRace();
         } else {
           strokeAction();
         }
@@ -283,6 +288,7 @@ export default function SwimmingGame() {
           const place = finishedOrder.findIndex((s) => s.isPlayer) + 1;
           setPlacement(place);
           setPhaseBoth("finished");
+          finishedAtRef.current = Date.now();
           if (place === 1) {
             sfx.cheer();
             unlock("champion");

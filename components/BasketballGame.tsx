@@ -513,8 +513,9 @@ export default function BasketballGame() {
           setScore(scoreRef.current);
           setAttempts(attemptsRef.current);
           setFlash("score");
-          sfx.swish();
-          sfx.cheer();
+          // Every bucket earns a different sound: cha-ching, droplet, swish
+          const scoreSounds = [sfx.cashRegister, sfx.droplet, sfx.swish];
+          scoreSounds[(scoreRef.current - 1) % scoreSounds.length]();
           setTimeout(() => setFlash(null), 700);
           if (scoreRef.current >= TARGET_SCORE && !wonRef.current) {
             wonRef.current = true;

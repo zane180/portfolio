@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
+import { sfx } from "./sfx";
 import { unlock } from "./achievements";
 import { XRayNote } from "./XRay";
 
@@ -164,6 +165,8 @@ export default function Piano() {
         setProgress(next);
         if (next >= FUR_ELISE.length) {
           setComplete(true);
+          // Let the final note breathe before the ovation
+          setTimeout(() => sfx.applause(), 400);
           unlock("fur-elise");
         }
       } else {
