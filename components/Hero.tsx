@@ -132,7 +132,7 @@ export default function Hero() {
             <GithubIcon size={22} />
           </a>
           <a
-            href="https://linkedin.com/in/zaneluis"
+            href="https://www.linkedin.com/in/zane-luis-39220a225"
             target="_blank"
             rel="noopener noreferrer"
             className="text-slate-500 hover:text-white transition-colors"

@@ -90,7 +90,7 @@ export default function StoryContact() {
               <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
             </a>
             <a
-              href="https://linkedin.com/in/zaneluis"
+              href="https://www.linkedin.com/in/zane-luis-39220a225"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-slate-500 hover:text-white transition-colors group"

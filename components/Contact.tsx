@@ -34,8 +34,8 @@ const links = [
   {
     icon: LinkedinIcon,
     label: "LinkedIn",
-    value: "linkedin.com/in/zaneluis",
-    href: "https://linkedin.com/in/zaneluis",
+    value: "linkedin.com/in/zane-luis-39220a225",
+    href: "https://www.linkedin.com/in/zane-luis-39220a225",
   },
   {
     icon: FileText,
