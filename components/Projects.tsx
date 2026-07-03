@@ -20,7 +20,7 @@ type Project = {
   githubUrl?: string;
   badge?: string;
   badgeColor?: string;
-  status: "live" | "wip" | "private";
+  status: "live" | "wip" | "private" | "public";
 };
 
 const projects: Project[] = [
@@ -54,9 +54,10 @@ const projects: Project[] = [
       "Clean separation of game logic from display layer, making it trivially portable to CLI, GUI, or web rendering",
     ],
     tech: ["Python", "OOP", "Data Structures", "Algorithms"],
+    githubUrl: "https://github.com/zane180/PSU-CMPSC132-Project",
     badge: "Academic",
     badgeColor: "text-blue-400 bg-blue-400/10 border-blue-400/20",
-    status: "private",
+    status: "public",
   },
 ];
 

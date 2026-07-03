@@ -62,7 +62,7 @@ const projects = [
       "Clean separation of game logic from display layer — trivially portable to CLI, GUI, or web",
     ],
     liveUrl: undefined,
-    githubUrl: undefined,
+    githubUrl: "https://github.com/zane180/PSU-CMPSC132-Project",
     accent: "#10b981",
     live: false,
   },
