@@ -38,9 +38,18 @@ export default function BasketballGame() {
   const [attempts, setAttempts] = useState(0);
   const [flash, setFlash] = useState<"score" | "miss" | null>(null);
   const [won, setWon] = useState(false);
+  // Touch devices: the court's touch-action:none turns scroll swipes into
+  // aim-drags, trapping the page mid-scroll. Gate the game behind a tap so
+  // an unarmed court lets swipes through.
+  const [needsTapToPlay, setNeedsTapToPlay] = useState(false);
+  const [armed, setArmed] = useState(false);
   const scoreRef = useRef(0);
   const attemptsRef = useRef(0);
   const wonRef = useRef(false);
+
+  useEffect(() => {
+    setNeedsTapToPlay(window.matchMedia("(pointer: coarse)").matches);
+  }, []);
 
   const spawnConfetti = useCallback((w: number, h: number) => {
     const colors = ["#8b5cf6", "#22d3ee", "#10b981", "#fbbf24", "#f472b6"];
@@ -670,7 +679,12 @@ export default function BasketballGame() {
         </div>
       </div>
 
-      <div className="w-full rounded-2xl overflow-hidden border border-white/5 relative touch-none" style={{ height: 340 }}>
+      <div
+        className={`w-full rounded-2xl overflow-hidden border border-white/5 relative ${
+          needsTapToPlay && !armed ? "" : "touch-none"
+        }`}
+        style={{ height: 340 }}
+      >
         <canvas
           ref={canvasRef}
           className="w-full h-full cursor-crosshair"
@@ -679,8 +693,27 @@ export default function BasketballGame() {
           onTouchMove={(e) => { const p = getPos(e.touches[0]); aimMove(p.x, p.y); }}
           onTouchEnd={aimRelease}
         />
+        {needsTapToPlay && !armed && (
+          <button
+            onClick={() => setArmed(true)}
+            className="absolute inset-0 z-10 flex items-end justify-center pb-5"
+            aria-label="Tap to play basketball"
+          >
+            <span className="px-5 py-2.5 rounded-full text-sm font-bold text-white bg-black/60 backdrop-blur-sm border border-white/15">
+              👆 Tap to play
+            </span>
+          </button>
+        )}
+        {needsTapToPlay && armed && !won && (
+          <button
+            onClick={() => setArmed(false)}
+            className="absolute top-3 right-3 z-10 px-3 py-1.5 rounded-full text-[11px] font-mono text-white/80 bg-black/50 border border-white/15"
+          >
+            ✕ scroll
+          </button>
+        )}
         {won && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 gap-3">
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/60 gap-3">
             <p className="text-5xl">🏆</p>
             <p className="text-3xl font-black gradient-text">CHAMPIONS!</p>
             <p className="text-slate-400 text-sm">
