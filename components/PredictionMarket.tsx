@@ -15,7 +15,7 @@ interface Market {
 
 const MARKETS: Market[] = [
   { id: "ship-ai", question: "Zane ships his next AI project", deadline: "by Sep 2026", basePrice: 78 },
-  { id: "faang-intern", question: "Lands Summer 2027 AI/SWE internship", deadline: "by Mar 2027", basePrice: 64 },
+  { id: "ai-intern", question: "Lands Summer 2027 AI Engineering internship", deadline: "by Mar 2027", basePrice: 64 },
   { id: "nba-bot", question: "NBA prediction bot goes live on Kalshi", deadline: "by Dec 2026", basePrice: 55 },
 ];
 

@@ -40,7 +40,7 @@ const stops = [
       "#1 CS program in the Midwest",
       "Dean's List — freshman year",
       "Shipped Lovemaxxing & Sentify — production AI systems",
-      "Targeting FAANG AI Engineering — Summer 2027",
+      "Targeting Summer 2027 AI Engineering internships",
     ],
     story:
       "The AI chapter. One of the best CS programs in the country, two production AI systems shipped. The mission: become an AI engineer who builds systems that scale, matter, and ship to millions.",
